@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":285:{a:2:{s:7:"defects";a:1:{s:52:"Tests\Feature\StoriesTest::a_user_can_create_a_story";i:4;}s:5:"times";a:3:{s:52:"Tests\Feature\StoriesTest::a_user_can_create_a_story";d:1.142;s:37:"Tests\Unit\ExampleTest::testBasicTest";d:0.022;s:40:"Tests\Feature\ExampleTest::testBasicTest";d:0.926;}}}
