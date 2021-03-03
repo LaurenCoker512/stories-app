@@ -17,9 +17,14 @@ class StoriesController extends Controller
     public function store()
     {
         // validate
+        $attributes = request()->validate([
+            'title' => 'required', 
+            'description' => 'required',
+            'user_id' => 'required|integer'
+        ]);
 
         // persist
-        Story::create(request(['title', 'description', 'user_id']));
+        Story::create($attributes);
 
         // redirect
         return redirect('/stories');

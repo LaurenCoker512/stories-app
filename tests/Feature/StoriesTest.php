@@ -4,16 +4,15 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+
+use App\Models\Story;
+
 use Tests\TestCase;
 
 class StoriesTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+
     /** @test */
     public function a_user_can_create_a_story()
     {
@@ -30,6 +29,30 @@ class StoriesTest extends TestCase
         $this->assertDatabaseHas('stories', $attributes);
 
         $this->get('/stories')->assertSee($attributes['title']);
+    }
+
+    /** @test */
+    public function a_story_requires_a_title()
+    {
+        $attributes = Story::factory()->raw(['title' => '']);
+
+        $this->post('/stories', $attributes)->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    public function a_story_requires_a_description()
+    {
+        $attributes = Story::factory()->raw(['description' => '']);
+
+        $this->post('/stories', $attributes)->assertSessionHasErrors('description');
+    }
+
+    /** @test */
+    public function a_story_requires_an_author()
+    {
+        $attributes = Story::factory()->raw(['user_id' => '']);
+
+        $this->post('/stories', $attributes)->assertSessionHasErrors('user_id');
     }
 
     // A logged-out user cannot create a story
