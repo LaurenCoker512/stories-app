@@ -32,6 +32,18 @@ class StoriesTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_view_a_story()
+    {
+        $this->withoutExceptionHandling();
+
+        $story = Story::factory()->create();
+
+        $this->get($story->path())
+            ->assertSee($story->title)
+            ->assertSee($story->description);
+    }
+
+    /** @test */
     public function a_story_requires_a_title()
     {
         $attributes = Story::factory()->raw(['title' => '']);

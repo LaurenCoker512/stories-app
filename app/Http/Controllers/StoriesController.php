@@ -14,6 +14,11 @@ class StoriesController extends Controller
         return view('stories.index', compact('stories'));
     }
 
+    public function show(Story $story)
+    {
+        return view('stories.show', compact('story'));
+    }
+
     public function store()
     {
         // validate

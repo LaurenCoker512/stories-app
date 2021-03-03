@@ -14,4 +14,9 @@ class Story extends Model
         'description',
         'user_id'
     ];
+
+    public function path()
+    {
+        return "/stories/{$this->id}";
+    }
 }
