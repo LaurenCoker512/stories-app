@@ -15,10 +15,14 @@ class CreateStoriesTable extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('title');
             $table->text('description');
-            $table->unsignedInteger('user_id');
             $table->timestamps();
+        });
+
+        Schema::table('stories', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

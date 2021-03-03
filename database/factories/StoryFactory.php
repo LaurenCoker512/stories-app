@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Story;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StoryFactory extends Factory
@@ -24,7 +25,9 @@ class StoryFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'user_id' => 1
+            'user_id' => function() {
+                return User::factory()->create()->id;
+            }
         ];
     }
 }

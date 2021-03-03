@@ -24,4 +24,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/stories', [StoriesController::class, 'index']);
 Route::get('/stories/{story}', [StoriesController::class, 'show']);
-Route::post('/stories', [StoriesController::class, 'store']);
+Route::post('/stories', [StoriesController::class, 'store'])->middleware('auth');

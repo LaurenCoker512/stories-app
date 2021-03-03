@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 use App\Models\Story;
+use App\Models\User;
 
 use Tests\TestCase;
 
@@ -14,15 +15,23 @@ class StoriesTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
+    public function only_authenticated_users_can_create_a_story()
+    {
+        $attributes = Story::factory()->raw();
+
+        $this->post('/stories', $attributes)->assertRedirect('login');
+    }
+
+    /** @test */
     public function a_user_can_create_a_story()
     {
         $this->withoutExceptionHandling();
 
-        $attributes = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'user_id' => 1
-        ];
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $attributes = Story::factory()->raw(['user_id' => $user->id]);
 
         $this->post('/stories', $attributes)->assertRedirect('/stories');
 
@@ -46,6 +55,8 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_story_requires_a_title()
     {
+        $this->actingAs(User::factory()->create());
+
         $attributes = Story::factory()->raw(['title' => '']);
 
         $this->post('/stories', $attributes)->assertSessionHasErrors('title');
@@ -54,17 +65,11 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_story_requires_a_description()
     {
+        $this->actingAs(User::factory()->create());
+
         $attributes = Story::factory()->raw(['description' => '']);
 
         $this->post('/stories', $attributes)->assertSessionHasErrors('description');
-    }
-
-    /** @test */
-    public function a_story_requires_an_author()
-    {
-        $attributes = Story::factory()->raw(['user_id' => '']);
-
-        $this->post('/stories', $attributes)->assertSessionHasErrors('user_id');
     }
 
     // A logged-out user cannot create a story
