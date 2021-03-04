@@ -19,6 +19,11 @@ class StoriesController extends Controller
         return view('stories.show', compact('story'));
     }
 
+    public function create()
+    {
+        return view('stories.create');
+    }
+
     public function store()
     {
         $attributes = request()->validate([

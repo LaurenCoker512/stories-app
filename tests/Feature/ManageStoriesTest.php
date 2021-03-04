@@ -19,6 +19,7 @@ class StoriesTest extends TestCase
     {
         $attributes = Story::factory()->raw();
 
+        $this->get('/stories/create')->assertRedirect('login');
         $this->post('/stories', $attributes)->assertRedirect('login');
     }
 
@@ -38,6 +39,8 @@ class StoriesTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user);
+
+        $this->get('/stories/create')->assertStatus(200);
 
         $attributes = Story::factory()->raw(['user_id' => $user->id]);
 

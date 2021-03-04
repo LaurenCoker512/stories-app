@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 use App\Models\Story;
 
-class StoryTest extends TestCase
+class ManageStoriesTest extends TestCase
 {
     use RefreshDatabase;
 

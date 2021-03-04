@@ -22,11 +22,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/stories', [StoriesController::class, 'index']);
-Route::get('/stories/{story}', [StoriesController::class, 'show']);
-
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('/stories/create', [StoriesController::class, 'create']);
     Route::post('/stories', [StoriesController::class, 'store']);
     Route::get('/stories/{story}/edit', [StoriesController::class, 'edit']);
 });
+
+Route::get('/stories', [StoriesController::class, 'index']);
+Route::get('/stories/{story}', [StoriesController::class, 'show']);
 
