@@ -15,11 +15,19 @@ class StoriesTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
-    public function only_authenticated_users_can_create_a_story()
+    public function guests_cannot_create_a_story()
     {
         $attributes = Story::factory()->raw();
 
         $this->post('/stories', $attributes)->assertRedirect('login');
+    }
+
+    /** @test */
+    public function guests_cannot_edit_a_story()
+    {
+        $story = Story::factory()->create();
+        
+        $this->get("/stories/{$story->id}/edit")->assertRedirect('login');
     }
 
     /** @test */
@@ -53,6 +61,16 @@ class StoriesTest extends TestCase
     }
 
     /** @test */
+    public function an_authenticated_user_cannot_edit_the_stories_of_others()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $story = Story::factory()->create();
+
+        $this->get("{$story->path()}/edit")->assertStatus(403);
+    }
+
+    /** @test */
     public function a_story_requires_a_title()
     {
         $this->actingAs(User::factory()->create());
@@ -71,10 +89,6 @@ class StoriesTest extends TestCase
 
         $this->post('/stories', $attributes)->assertSessionHasErrors('description');
     }
-
-    // A logged-out user cannot create a story
-
-    // A user can view a story
 
     // The creator of a story can edit it
 

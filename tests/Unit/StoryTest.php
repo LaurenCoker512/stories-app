@@ -18,4 +18,12 @@ class StoryTest extends TestCase
 
         $this->assertEquals('/stories/' . $story->id, $story->path());
     }
+
+    /** @test */
+    public function it_belongs_to_a_user()
+    {
+        $story = Story::factory()->create();
+
+        $this->assertInstanceOf('App\Models\User', $story->user);
+    }
 }

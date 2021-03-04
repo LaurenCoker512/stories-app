@@ -30,4 +30,13 @@ class StoriesController extends Controller
 
         return redirect('/stories');
     }
+
+    public function edit(Story $story)
+    {
+        if (auth()->user()->isNot($story->user)) {
+            abort(403);
+        }
+
+        return view('stories.edit', compact('story'));
+    }
 }
