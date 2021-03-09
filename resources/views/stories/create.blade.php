@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
+@extends('layouts.app')
 
-</head>
-<body>
+@section('content')
     <h1>Create a New Story</h1>
 
     <form method="POST" action="/stories">
         @csrf
-        
+
         <div>
             <label for="title">Title</label>
 
@@ -22,7 +19,6 @@
         </div>
 
         <input type="submit" name="submit" value="Submit">
+        <a href="/stories">Cancel</a>
     </form>
-</body>
-
-</html>
+@endsection

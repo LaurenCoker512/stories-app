@@ -34,17 +34,17 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_user_can_create_a_story()
     {
-        $this->withoutExceptionHandling();
-
         $user = User::factory()->create();
 
-        $this->actingAs($user);
+        $this->signIn($user);
 
         $this->get('/stories/create')->assertStatus(200);
 
         $attributes = Story::factory()->raw(['user_id' => $user->id]);
 
-        $this->post('/stories', $attributes)->assertRedirect('/stories');
+        $response = $this->post('/stories', $attributes);
+
+        $response->assertRedirect(Story::where($attributes)->first()->path());
 
         $this->assertDatabaseHas('stories', $attributes);
 
@@ -66,7 +66,7 @@ class StoriesTest extends TestCase
     /** @test */
     public function an_authenticated_user_cannot_edit_the_stories_of_others()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $story = Story::factory()->create();
 
@@ -76,7 +76,7 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_story_requires_a_title()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $attributes = Story::factory()->raw(['title' => '']);
 
@@ -86,7 +86,7 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_story_requires_a_description()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
 
         $attributes = Story::factory()->raw(['description' => '']);
 

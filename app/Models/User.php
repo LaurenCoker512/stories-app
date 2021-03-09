@@ -43,6 +43,6 @@ class User extends Authenticatable
 
     public function stories()
     {
-        return $this->hasMany(Story::class);
+        return $this->hasMany(Story::class)->latest('updated_at');
     }
 }

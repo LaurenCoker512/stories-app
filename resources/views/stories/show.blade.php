@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
+@extends('layouts.app')
 
-</head>
-<body>
+@section('content')
     <h1>{{ $story->title }}</h1>
 
     <p>{{ $story->description }}</p>
-</body>
 
-</html>
+    @foreach ($story->chapters as $chapter)
+        {{ $chapter->body }}
+    @endforeach
+
+    <a href="/stories">Back to Stories</a>
+@endsection

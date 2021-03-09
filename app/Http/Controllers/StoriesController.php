@@ -9,7 +9,7 @@ class StoriesController extends Controller
 {
     public function index()
     {
-        $stories = Story::all();
+        $stories = Story::all()->latest('updated_at')->get();
 
         return view('stories.index', compact('stories'));
     }
@@ -31,9 +31,9 @@ class StoriesController extends Controller
             'description' => 'required'
         ]);
 
-        auth()->user()->stories()->create($attributes);
+        $story = auth()->user()->stories()->create($attributes);
 
-        return redirect('/stories');
+        return redirect($story->path());
     }
 
     public function edit(Story $story)

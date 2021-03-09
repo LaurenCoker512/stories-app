@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+@extends('layouts.app')
 
-</head>
-<body>
+@section('content')
     <h1>Stories</h1>
 
     <ul>
@@ -15,6 +12,4 @@
             <li>There are no stories yet. Create one here!</li>
         @endforelse
     </ul>
-</body>
-
-</html>
+@endsection

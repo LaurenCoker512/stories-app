@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoriesController;
+use App\Http\Controllers\StoryChaptersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/stories/create', [StoriesController::class, 'create']);
     Route::post('/stories', [StoriesController::class, 'store']);
     Route::get('/stories/{story}/edit', [StoriesController::class, 'edit']);
+
+    Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
+    Route::patch('/stories/{story}/chapters/{chapter}', [StoryChaptersController::class, 'update']);
 });
 
 Route::get('/stories', [StoriesController::class, 'index']);

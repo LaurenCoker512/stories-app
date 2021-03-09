@@ -24,4 +24,14 @@ class Story extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
+
+    public function addChapter($body)
+    {
+        return $this->chapters()->create(compact('body'));
+    }
 }
