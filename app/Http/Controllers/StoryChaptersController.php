@@ -10,9 +10,7 @@ class StoryChaptersController extends Controller
 {
     public function store(Story $story)
     {
-        if (auth()->user()->isNot($story->user)) {
-            abort(403);
-        }
+        $this->authorize('update', $story);
 
         request()->validate(['body' => 'required']);
 
@@ -23,16 +21,12 @@ class StoryChaptersController extends Controller
 
     public function update(Story $story, Chapter $chapter)
     {
-        if (auth()->user()->isNot($chapter->$story->user)) {
-            abort(403);
-        }
-
-        request()->validate(['body' => 'required']);
+        $this->authorize('update', $chapter->story);
 
         $chapter->update([
             'body' => request('body')
         ]);
 
-        return redirect($chapter->$story->path());
+        return redirect($chapter->story->path());
     }
 }

@@ -38,10 +38,22 @@ class StoriesController extends Controller
 
     public function edit(Story $story)
     {
-        if (auth()->user()->isNot($story->user)) {
-            abort(403);
-        }
+        $this->authorize('update', $story);
 
         return view('stories.edit', compact('story'));
+    }
+
+    public function update(Story $story)
+    {
+        $this->authorize('update', $story);
+
+        $attributes = request()->validate([
+            'title' => 'min:1', 
+            'description' => 'min:1'
+        ]);
+
+        $story->update($attributes);
+
+        return redirect($story->path());
     }
 }

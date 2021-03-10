@@ -52,6 +52,23 @@ class StoriesTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_update_a_story()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->signIn();
+
+        $story = Story::factory()->create(['user_id' => auth()->id()]);
+
+        $this->patch($story->path(), [
+            'title' => $story->title,
+            'description' => 'Changed'
+        ])->assertRedirect($story->path());
+
+        $this->assertDatabaseHas('stories', ['description' => 'Changed']);
+    }
+
+    /** @test */
     public function a_user_can_view_a_story()
     {
         $this->withoutExceptionHandling();
@@ -64,13 +81,15 @@ class StoriesTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_user_cannot_edit_the_stories_of_others()
+    public function an_authenticated_user_cannot_update_the_stories_of_others()
     {
         $this->signIn();
 
         $story = Story::factory()->create();
 
         $this->get("{$story->path()}/edit")->assertStatus(403);
+
+        $this->patch($story->path(), [])->assertStatus(403);
     }
 
     /** @test */

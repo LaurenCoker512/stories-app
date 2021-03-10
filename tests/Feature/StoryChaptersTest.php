@@ -48,10 +48,9 @@ class StoryChaptersTest extends TestCase
         $this->signIn();
 
         $story = Story::factory()->create();
-
         $chapter = $story->addChapter('Test body');
 
-        $this->patch($story->path() . '/chapters/' . $chapter->id, [
+        $this->patch($chapter->path(), [
             'body' => 'Test body updated'
         ])->assertStatus(403);
 
