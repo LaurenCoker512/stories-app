@@ -9,7 +9,7 @@ class StoriesController extends Controller
 {
     public function index()
     {
-        $stories = Story::all()->latest('updated_at')->get();
+        $stories = Story::latest('updated_at')->get();
 
         return view('stories.index', compact('stories'));
     }
