@@ -65,6 +65,8 @@ class StoriesTest extends TestCase
                 'description' => 'Changed'
             ])->assertRedirect($story->path());
 
+        $this->get($story->path() . '/edit')->assertOk();
+
         $this->assertDatabaseHas('stories', $attributes);
     }
 

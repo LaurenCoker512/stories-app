@@ -1,24 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Create a New Story</h1>
 
-    <form method="POST" action="/stories">
-        @csrf
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>Update {{ $story->title }}</h1>
+            <form method="POST" action="{{ $story->path() }}">
+            @method('PATCH')
 
-        <div>
-            <label for="title">Title</label>
+    @include('stories.form', ['method' => 'update'])
 
-            <input type="text" name="title" id="title">
-        </div>
-
-        <div>
-            <label for="description">Description</label>
-
-            <input type="text" name="description" id="description">
-        </div>
-
-        <input type="submit" name="submit" value="Submit">
-        <a href="/stories">Cancel</a>
-    </form>
 @endsection
