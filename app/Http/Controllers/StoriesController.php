@@ -48,8 +48,8 @@ class StoriesController extends Controller
         $this->authorize('update', $story);
 
         $attributes = request()->validate([
-            'title' => 'min:1', 
-            'description' => 'min:1'
+            'title' => 'sometimes|required|min:1', 
+            'description' => 'sometimes|required|min:1'
         ]);
 
         $story->update($attributes);

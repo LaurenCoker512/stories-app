@@ -14,10 +14,19 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_has_stories()
+    public function it_has_stories()
     {
         $user = User::factory()->create();
 
         $this->assertInstanceOf(Collection::class, $user->stories);
     }
+
+    /** @test */
+    public function it_has_a_dashboard()
+    {
+        $this->signIn();
+
+        $this->get('/dashboard')->assertStatus(200)->assertSee(auth()->user()->name);
+    }
+
 }
