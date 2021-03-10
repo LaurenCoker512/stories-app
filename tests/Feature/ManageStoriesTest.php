@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Facades\Tests\Setup\StoryFactory;
 
 use App\Models\Story;
 use App\Models\User;
@@ -56,23 +57,20 @@ class StoriesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->signIn();
+        $story = StoryFactory::create();
 
-        $story = Story::factory()->create(['user_id' => auth()->id()]);
+        $this->actingAs($story->user)
+            ->patch($story->path(), $attributes = [
+                'title' => $story->title,
+                'description' => 'Changed'
+            ])->assertRedirect($story->path());
 
-        $this->patch($story->path(), [
-            'title' => $story->title,
-            'description' => 'Changed'
-        ])->assertRedirect($story->path());
-
-        $this->assertDatabaseHas('stories', ['description' => 'Changed']);
+        $this->assertDatabaseHas('stories', $attributes);
     }
 
     /** @test */
     public function a_user_can_view_a_story()
     {
-        $this->withoutExceptionHandling();
-
         $story = Story::factory()->create();
 
         $this->get($story->path())

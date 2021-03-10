@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Facades\Tests\Setup\StoryFactory;
 
 use App\Models\Chapter;
 use App\Models\Story;
@@ -47,10 +48,10 @@ class StoryChaptersTest extends TestCase
     {   
         $this->signIn();
 
-        $story = Story::factory()->create();
-        $chapter = $story->addChapter('Test body');
+        $story = StoryFactory::withChapters(1)
+                    ->create();
 
-        $this->patch($chapter->path(), [
+        $this->patch($story->chapters[0]->path(), [
             'body' => 'Test body updated'
         ])->assertStatus(403);
 
@@ -60,13 +61,10 @@ class StoryChaptersTest extends TestCase
     /** @test */
     public function a_story_can_have_chapters()
     {
-        $this->withoutExceptionHandling();
+        $story = StoryFactory::create();
 
-        $this->signIn();
-
-        $story = Story::factory()->create(['user_id' => auth()->id()]);
-
-        $this->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
+        $this->actingAs($story->user)
+            ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
 
         $this->get($story->path())
             ->assertSee('Lorem ipsum');
@@ -75,12 +73,10 @@ class StoryChaptersTest extends TestCase
     /** @test */
     public function a_chapter_can_be_updated()
     {
-        $this->signIn();
+        $story = StoryFactory::withChapters(1)
+                    ->create();
 
-        $story = Story::factory()->create(['user_id' => auth()->id()]);
-        $chapter = $story->addChapter('Test chapter');
-
-        $this->patch($chapter->path(), [
+        $this->actingAs($story->user)->patch($story->chapters[0]->path(), [
             'body' => 'Changed'
         ]);
 
@@ -92,12 +88,12 @@ class StoryChaptersTest extends TestCase
     /** @test */
     public function a_chapter_requires_a_body()
     {
-        $this->signIn();
-
-        $story = Story::factory()->create(['user_id' => auth()->id()]);
+        $story = StoryFactory::create();
 
         $attributes = Chapter::factory()->raw(['body' => '']);
 
-        $this->post($story->path() . '/chapters', $attributes)->assertSessionHasErrors('body');
+        $this->actingAs($story->user)
+            ->post($story->path() . '/chapters', $attributes)
+            ->assertSessionHasErrors('body');
     }
 }

@@ -59,11 +59,19 @@
                         <a href="#" class="btn btn-dark">Read more</a>
                     </div>
                 </div>
-                <!-- @forelse($stories as $story)
-                    <div>Dynamic content here</div>
+                @forelse($stories as $story)
+                    <div class="card mt-4" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $story->title }}</h5>
+                            <p class="card-text">
+                                {{ $story->description }}
+                            </p>
+                            <a href="{{ $story->path() }}" class="btn btn-dark">Read more</a>
+                        </div>
+                    </div>
                 @empty
                     <div>There are no stories yet. Create one here!</div>
-                @endforelse -->
+                @endforelse
             </div>
             <div class="col-3">
                 <h2>Popular Tags</h2>
