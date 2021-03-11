@@ -56,4 +56,13 @@ class StoriesController extends Controller
 
         return redirect($story->path());
     }
+
+    public function destroy(Story $story)
+    {
+        $this->authorize('update', $story);
+
+        $story->delete();
+
+        return redirect('/dashboard');
+    }
 }

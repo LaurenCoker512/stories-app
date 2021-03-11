@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/stories', [StoriesController::class, 'store']);
     Route::get('/stories/{story}/edit', [StoriesController::class, 'edit']);
     Route::patch('/stories/{story}', [StoriesController::class, 'update']);
+    Route::delete('/stories/{story}', [StoriesController::class, 'destroy']);
 
     Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
     Route::patch('/stories/{story}/chapters/{chapter}', [StoryChaptersController::class, 'update']);

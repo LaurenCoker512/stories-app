@@ -55,8 +55,6 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_user_can_update_a_story()
     {
-        $this->withoutExceptionHandling();
-
         $story = StoryFactory::create();
 
         $this->actingAs($story->user)
@@ -68,6 +66,32 @@ class StoriesTest extends TestCase
         $this->get($story->path() . '/edit')->assertOk();
 
         $this->assertDatabaseHas('stories', $attributes);
+    }
+
+    /** @test */
+    public function unauthorized_users_cannot_delete_stories()
+    {
+        $story = StoryFactory::create();
+
+        $this->delete($story->path())
+            ->assertRedirect('/login');
+
+        $this->signIn();
+
+        $this->delete($story->path())
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function a_user_can_delete_a_story()
+    {
+        $story = StoryFactory::create();
+
+        $this->actingAs($story->user)
+            ->delete($story->path())
+            ->assertRedirect('/dashboard');
+
+        $this->assertDatabaseMissing('stories', $story->only('id'));
     }
 
     /** @test */

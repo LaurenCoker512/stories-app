@@ -18,7 +18,11 @@
                         </p>
                         <a href="#" class="btn btn-dark">View</a>
                         <a href="#" class="btn btn-dark">Edit Story</a>
-                        <a href="#" class="btn btn-dark">Delete Story</a>
+                        <form method="POST" action="/story-path">
+                            @method('DELETE')
+                            @csrf
+                            <input class="btn btn-dark" type="submit" value="Delete Story">
+                        </form>
                     </div>
                 </div>
                 <div class="card mt-4" style="width: 100%;">
