@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(User $user)
     {
-        $stories = auth()->user()->stories;
+        $stories = $user->stories;
 
-        return view('dashboard.index', compact('stories'));
+        return view('dashboard.index', compact('stories', 'user'));
     }
 }

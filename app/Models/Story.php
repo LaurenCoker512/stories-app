@@ -15,6 +15,12 @@ class Story extends Model
         'user_id'
     ];
 
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
+    ];
+
     public function path()
     {
         return "/stories/{$this->id}";

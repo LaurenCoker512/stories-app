@@ -26,7 +26,7 @@ class UserTest extends TestCase
     {
         $this->signIn();
 
-        $this->get('/dashboard')->assertStatus(200)->assertSee(auth()->user()->name);
+        $this->get('/dashboard/' . auth()->id())->assertStatus(200)->assertSee(auth()->user()->name);
     }
 
 }

@@ -9,6 +9,11 @@
             <form method="POST" action="{{ $story->path() }}">
             @method('PATCH')
 
-    @include('stories.form', ['method' => 'update'])
+            @include('stories.form', ['method' => 'update'])
+
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection

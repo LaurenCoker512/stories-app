@@ -89,7 +89,7 @@ class StoriesTest extends TestCase
 
         $this->actingAs($story->user)
             ->delete($story->path())
-            ->assertRedirect('/dashboard');
+            ->assertRedirect('/dashboard/' . $story->user->id);
 
         $this->assertDatabaseMissing('stories', $story->only('id'));
     }
@@ -136,9 +136,29 @@ class StoriesTest extends TestCase
         $this->post('/stories', $attributes)->assertSessionHasErrors('description');
     }
 
-    // The creator of a story can edit it
+    /** @test */
+    public function unauthenticated_users_cannot_see_crud_links_on_dashboard()
+    {
+        $user = User::factory()->create();
 
-    // The creator of a story can delete it
+        $stories = Story::factory()->count(5)->create(['user_id' => $user->id]);
 
-    // A user that did not create a story cannot edit or delete it
+        $this->get('/dashboard/' . $user->id)
+            ->assertDontSee('Welcome')
+            ->assertDontSee('Edit')
+            ->assertDontSee('Delete');
+
+        $this->signIn();
+
+        $this->get('/dashboard/' . $user->id)
+            ->assertSee('Welcome')
+            ->assertDontSee('Edit')
+            ->assertDontSee('Delete');
+
+        $this->actingAs($user)
+            ->get('/dashboard/' . $user->id)
+            ->assertSee('Welcome')
+            ->assertSee('Edit')
+            ->assertSee('Delete');
+    }
 }

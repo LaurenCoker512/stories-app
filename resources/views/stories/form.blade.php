@@ -54,7 +54,3 @@
                 </div>
                 @endif
                 
-            </form>
-        </div>
-    </div>
-</div>

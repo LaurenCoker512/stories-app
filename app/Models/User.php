@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Story::class)->latest('updated_at');
     }
+
+    public function path()
+    {
+        return "/dashboard/{$this->id}";
+    }
 }

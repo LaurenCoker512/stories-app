@@ -63,6 +63,6 @@ class StoriesController extends Controller
 
         $story->delete();
 
-        return redirect('/dashboard');
+        return redirect('/dashboard/' . auth()->id());
     }
 }
