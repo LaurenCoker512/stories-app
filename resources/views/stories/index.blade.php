@@ -66,7 +66,7 @@
                             <p class="card-text">
                                 {{ $story->description }}
                             </p>
-                            <a href="{{ $story->path() }}" class="btn btn-dark">Read more</a>
+                            <a href="{{ $story->firstChapterPath() }}" class="btn btn-dark">Read more</a>
                         </div>
                     </div>
                 @empty

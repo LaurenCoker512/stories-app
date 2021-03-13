@@ -20,6 +20,14 @@ class ManageStoriesTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_path_to_first_chapter()
+    {
+        $story = Story::factory()->create();
+
+        $this->assertEquals('/stories/' . $story->id . '/chapters/1', $story->firstChapterPath());
+    }
+
+    /** @test */
     public function it_belongs_to_a_user()
     {
         $story = Story::factory()->create();

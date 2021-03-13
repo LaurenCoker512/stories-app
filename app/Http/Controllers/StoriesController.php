@@ -14,11 +14,6 @@ class StoriesController extends Controller
         return view('stories.index', compact('stories'));
     }
 
-    public function show(Story $story)
-    {
-        return view('stories.show', compact('story'));
-    }
-
     public function create()
     {
         return view('stories.create');
@@ -33,7 +28,7 @@ class StoriesController extends Controller
 
         $story = auth()->user()->stories()->create($attributes);
 
-        return redirect($story->path());
+        return redirect($story->firstChapterPath());
     }
 
     public function edit(Story $story)
@@ -54,7 +49,7 @@ class StoriesController extends Controller
 
         $story->update($attributes);
 
-        return redirect($story->path());
+        return redirect($story->firstChapterPath());
     }
 
     public function destroy(Story $story)

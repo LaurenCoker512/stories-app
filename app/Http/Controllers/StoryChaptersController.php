@@ -8,6 +8,13 @@ use App\Models\Story;
 
 class StoryChaptersController extends Controller
 {
+    public function show(Story $story, int $chapterNum)
+    {
+        $chapter = $story->getChapterByNumber($chapterNum);
+
+        return view('chapters.show', compact('story', 'chapter'));
+    }
+
     public function store(Story $story)
     {
         $this->authorize('update', $story);
@@ -16,17 +23,19 @@ class StoryChaptersController extends Controller
 
         $story->addChapter(request('body'));
 
-        return redirect($story->path());
+        return redirect($story->firstChapterPath());
     }
 
-    public function update(Story $story, Chapter $chapter)
+    public function update(Story $story, int $chapterNum)
     {
+        $chapter = $story->getChapterByNumber($chapterNum);
+
         $this->authorize('update', $chapter->story);
 
         $chapter->update([
             'body' => request('body')
         ]);
 
-        return redirect($chapter->story->path());
+        return redirect($story->firstChapterPath());
     }
 }

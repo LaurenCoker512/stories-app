@@ -5,9 +5,13 @@
 
     <p>{{ $story->description }}</p>
 
-    @foreach ($story->chapters as $chapter)
-        {{ $chapter->body }}
-    @endforeach
+    <ul>
+        @foreach($story->tags as $tag)
+            <li>{{ $tag->name }}</li>
+        @endforeach
+    </ul>
+
+    {{ $chapter->body }}
 
     <a href="/stories">Back to Stories</a>
 @endsection

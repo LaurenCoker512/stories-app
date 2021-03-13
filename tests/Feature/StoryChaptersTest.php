@@ -66,7 +66,7 @@ class StoryChaptersTest extends TestCase
         $this->actingAs($story->user)
             ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
 
-        $this->get($story->path())
+        $this->get($story->firstChapterPath())
             ->assertSee('Lorem ipsum');
     }
 

@@ -11,6 +11,8 @@ class Chapter extends Model
 
     protected $fillable = ['body'];
 
+    protected $guarded = ['id', 'title', 'created_at', 'updated_at'];
+
     protected $touches = ['story'];
 
     public function story()
@@ -18,8 +20,19 @@ class Chapter extends Model
         return $this->belongsTo(Story::class);
     }
 
+    public function getNumber()
+    {
+        $allChapters = $this->story->chapters->sortBy('created_at');
+
+        foreach($allChapters as $i=>$chapter) {
+            if ($chapter->id === $this->id) {
+                return $i + 1;
+            }
+        }
+    }
+
     public function path()
     {
-        return "/stories/{$this->story->id}/chapters/{$this->id}";
+        return "/stories/{$this->story->id}/chapters/{$this->getNumber()}";
     }
 }

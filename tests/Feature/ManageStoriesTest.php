@@ -45,7 +45,7 @@ class StoriesTest extends TestCase
 
         $response = $this->post('/stories', $attributes);
 
-        $response->assertRedirect(Story::where($attributes)->first()->path());
+        $response->assertRedirect(Story::where($attributes)->first()->firstChapterPath());
 
         $this->assertDatabaseHas('stories', $attributes);
 
@@ -61,7 +61,7 @@ class StoriesTest extends TestCase
             ->patch($story->path(), $attributes = [
                 'title' => $story->title,
                 'description' => 'Changed'
-            ])->assertRedirect($story->path());
+            ])->assertRedirect($story->firstChapterPath());
 
         $this->get($story->path() . '/edit')->assertOk();
 
@@ -99,7 +99,7 @@ class StoriesTest extends TestCase
     {
         $story = Story::factory()->create();
 
-        $this->get($story->path())
+        $this->get($story->firstChapterPath())
             ->assertSee($story->title)
             ->assertSee($story->description);
     }

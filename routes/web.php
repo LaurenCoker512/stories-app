@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\StoryChaptersController;
+use App\Http\Controllers\TagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('/stories/{story}', [StoriesController::class, 'destroy']);
 
     Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
-    Route::patch('/stories/{story}/chapters/{chapter}', [StoryChaptersController::class, 'update']);
+    Route::patch('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'update']);
 
     Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
 });
 
 Route::get('/stories', [StoriesController::class, 'index']);
-Route::get('/stories/{story}', [StoriesController::class, 'show']);
+Route::get('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'show']);
+
+Route::get('/tags', [TagsController::class, 'index']);
+Route::get('tags/{tag}', [TagsController::class, 'show']);
 

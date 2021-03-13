@@ -32,7 +32,7 @@ class ChapterTest extends TestCase
         $chapter = Chapter::factory()->create();
 
         $this->assertEquals(
-            '/stories/' . $chapter->story->id . '/chapters/' . $chapter->id, 
+            '/stories/' . $chapter->story->id . '/chapters/' . $chapter->getNumber(), 
             $chapter->path());
     }
 }
