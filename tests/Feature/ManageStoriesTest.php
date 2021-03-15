@@ -35,6 +35,8 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_user_can_create_a_story()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::factory()->create();
 
         $this->signIn($user);
@@ -43,7 +45,12 @@ class StoriesTest extends TestCase
 
         $attributes = Story::factory()->raw(['user_id' => $user->id]);
 
-        $response = $this->post('/stories', $attributes);
+        $response = $this->post('/stories', [
+            'title' => $attributes['title'],
+            'description' => $attributes['description'],
+            'user_id' => $attributes['user_id'],
+            'first-chapter' => "A test first chapter body"
+        ]);
 
         $response->assertRedirect(Story::where($attributes)->first()->firstChapterPath());
 

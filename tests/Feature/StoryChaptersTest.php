@@ -86,6 +86,21 @@ class StoryChaptersTest extends TestCase
     }
 
     /** @test */
+    public function a_chapter_can_be_deleted()
+    {
+        $story = StoryFactory::withChapters(1)
+                    ->create();
+
+        $this->actingAs($story->user)
+            ->delete($story->chapters[0]->path())
+            ->assertRedirect('/dashboard/' . $story->user->id);
+
+        $this->assertDatabaseMissing('chapters', [
+            'story_id' => $story->id
+        ]);
+    }
+
+    /** @test */
     public function a_chapter_requires_a_body()
     {
         $story = StoryFactory::create();

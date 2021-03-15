@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="jumbotron" style="background-image: url('https://miro.medium.com/max/2400/0*5dZpxRIiURrp8obS'); background-repeat: no-repeat; background-position: center; background-size: cover;">
-        <h1 class="display-4 text-white text-center">Welcome to Stories!</h1>
-        <p class="lead text-white text-center">We're an archive of all sorts of writing, from fiction to nonfiction to poetry.</p>
+        <h1 class="display-4 text-white text-center" style="text-shadow: black 0.04em 0.04em 0.04em; font-family: 'Dancing Script', cursive;">Welcome to Stories!</h1>
+        <p class="lead text-white text-center" style="text-shadow: black 0.05em 0.05em 0.05em;">We're an archive of all sorts of writing, from fiction to nonfiction to poetry.</p>
         <p class="lead text-white text-center">
             <a class="btn btn-outline-light btn-lg" href="#" role="button">Create a Story</a>
         </p>
     </div>
 
-    <section class="container">
+    <section class="container mb-4">
         <div class="row">
             <div class="col-md-9 col-12">
                 <h2>Latest Stories</h2>
@@ -27,12 +27,6 @@
                 @empty
                     <div>There are no stories yet. Create one here!</div>
                 @endforelse
-
-                <br/>
-
-                {{ $stories->links() }}
-
-                <br/>
             </div>
             <div class="col-md-3 col-12">
                 <h2>Popular Tags</h2>

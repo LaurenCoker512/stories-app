@@ -21,6 +21,33 @@
                 @endforeach
                 </div>
 
+                @if(auth()->id() === $story->user->id)
+                <div>
+                    <a href="{{ $story->path() }}/chapters/create" class="btn btn-dark" role="button">Add Chapter</a>
+                    <a href="" class="btn btn-dark" role="button">Edit Story</a>
+                    <a href="{{ $chapter->path()/edit }}" class="btn btn-dark" role="button">Edit Chapter</a>
+                    <form method="POST" action="{{ $story->path() }}">
+                        @method('DELETE')
+                        @csrf
+                        <input 
+                            class="btn btn-dark" 
+                            type="submit" 
+                            value="Delete Story" 
+                            onclick="return confirm('Are you sure you want to delete this story?');">
+                    </form>
+                    <a href="/tags" class="btn btn-dark" role="button">Delete Chapter</a>
+                    <form method="POST" action="{{ $chapter->path() }}">
+                        @method('DELETE')
+                        @csrf
+                        <input 
+                            class="btn btn-dark" 
+                            type="submit" 
+                            value="Delete Chapter" 
+                            onclick="return confirm('Are you sure you want to delete this chapter?');">
+                    </form>
+                </div>
+                @endif
+
                 <article class="mt-4 mb-4">
                     {{ $chapter->body }}
                 </article>

@@ -32,8 +32,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::patch('/stories/{story}', [StoriesController::class, 'update']);
     Route::delete('/stories/{story}', [StoriesController::class, 'destroy']);
 
+    Route::get('/stories/{story}/chapters/create', [StoryChaptersController::class, 'create']);
     Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
+    Route::get('/stories/{story}/chapters/{chapterNum}/edit', [StoryChaptersController::class, 'edit']);
     Route::patch('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'update']);
+    Route::delete('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'destroy']);
 });
 
 Route::get('/dashboard/{user}', [DashboardController::class, 'index']);

@@ -10,7 +10,7 @@ class StoriesController extends Controller
 {
     public function index()
     {
-        $stories = Story::latest('updated_at')->paginate(20);
+        $stories = Story::latest('updated_at')->take(20)->get();
         $tags = Tag::withCount('stories')->orderBy('stories_count', 'desc')->take(10)->get();
 
         return view('stories.index', compact('stories', 'tags'));
@@ -18,7 +18,8 @@ class StoriesController extends Controller
 
     public function create()
     {
-        return view('stories.create');
+        $tags = Tag::all();
+        return view('stories.create', compact('tags'));
     }
 
     public function store()
@@ -30,6 +31,10 @@ class StoriesController extends Controller
 
         $story = auth()->user()->stories()->create($attributes);
 
+        // TODO: Add tags
+
+        $story->addChapter(request('first-chapter'));
+
         return redirect($story->firstChapterPath());
     }
 
@@ -37,7 +42,9 @@ class StoriesController extends Controller
     {
         $this->authorize('update', $story);
 
-        return view('stories.edit', compact('story'));
+        $tags = Tag::all();
+
+        return view('stories.edit', compact('story', 'tags'));
     }
 
     public function update(Story $story)

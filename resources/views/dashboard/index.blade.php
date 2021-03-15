@@ -14,7 +14,7 @@
                 
                 <h2>Your Stories</h2>
 
-                <a href="#" class="btn btn-dark" role="button">Create a New Story</a>
+                <a href="/stories/create" class="btn btn-dark" role="button">Create a New Story</a>
             @else
             <div class="col-12">
             @endif
@@ -28,17 +28,25 @@
                             </p>
                             <a href="{{ $story->firstChapterPath() }}" class="btn btn-dark">View</a>
                             @if(auth()->id() === $user->id)
-                            <a href="#" class="btn btn-dark">Edit Story</a>
-                            <form method="POST" action="/story-path">
+                            <a href="{{ $story->path() }}/edit" class="btn btn-dark">Edit Story</a>
+                            <form method="POST" action="{{ $story->path() }}">
                                 @method('DELETE')
                                 @csrf
-                                <input class="btn btn-dark" type="submit" value="Delete Story">
+                                <input 
+                                    class="btn btn-dark" 
+                                    type="submit" 
+                                    value="Delete Story" 
+                                    onclick="return confirm('Are you sure you want to delete this story?');">
                             </form>
                             @endif
                         </div>
                     </div>
                 @empty
-                    <div>There are no stories yet. Create one here!</div>
+                    @if(auth()->id() === $user->id)
+                        <div class="mt-4">You haven't posted any stories yet.</div>
+                    @else
+                        <div class="mt-4">This user hasn't posted any stories yet.</div>
+                    @endif
                 @endforelse
             </div>
             @if(auth()->id() === $user->id)
