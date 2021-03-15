@@ -34,9 +34,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
     Route::patch('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'update']);
-
-    Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
 });
+
+Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
 
 Route::get('/stories', [StoriesController::class, 'index']);
 Route::get('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'show']);

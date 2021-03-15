@@ -11,7 +11,7 @@ class StoriesController extends Controller
     public function index()
     {
         $stories = Story::latest('updated_at')->paginate(20);
-        $tags = Tag::withCount('stories')->orderBy('stories_count', 'desc')->take(10);
+        $tags = Tag::withCount('stories')->orderBy('stories_count', 'desc')->take(10)->get();
 
         return view('stories.index', compact('stories', 'tags'));
     }

@@ -6,3 +6,32 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.pagination > li > a
+{
+    background-color: white;
+    color: #343a40;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > span
+{
+    color: white;
+    background-color: #343a40 !Important;
+    border: solid 1px #343a40 !Important;
+}
+
+.pagination > .active > span:hover
+{
+    background-color: #343a40 !Important;
+    border: solid 1px #343a40;
+}

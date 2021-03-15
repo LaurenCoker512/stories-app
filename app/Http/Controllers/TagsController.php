@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tag;
+use App\Models\Story;
 
 class TagsController extends Controller
 {
@@ -16,7 +17,9 @@ class TagsController extends Controller
 
     public function show(Tag $tag)
     {
-        $stories = $tag->stories->paginate(20);
+        $stories = Story::whereHas('tags', function($query) use ($tag) {
+            $query->where('tags.id', $tag->id);
+        })->paginate(20);
 
         return view('tags.show', compact('tag', 'stories'));
     }

@@ -11,7 +11,7 @@
 
     <section class="container">
         <div class="row">
-            <div class="col-9">
+            <div class="col-md-9 col-12">
                 <h2>Latest Stories</h2>
 
                 @forelse($stories as $story)
@@ -28,9 +28,13 @@
                     <div>There are no stories yet. Create one here!</div>
                 @endforelse
 
+                <br/>
+
                 {{ $stories->links() }}
+
+                <br/>
             </div>
-            <div class="col-3">
+            <div class="col-md-3 col-12">
                 <h2>Popular Tags</h2>
                 <ul class="list-group mt-4 mb-4">
                     @foreach($tags as $tag)
