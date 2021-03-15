@@ -35,7 +35,10 @@ class StoryTagsTest extends TestCase
         $tag = Tag::factory()->create();
 
         $stories = Story::factory()->count(5)->create();
-        // Loop over each story and add the tag to it
+
+        foreach ($stories as $story) {
+            $story->updateTags([$tag->id]);
+        }
 
         $this->get('/tags/' . $tag->id)
             ->assertSee($stories[0]->title)

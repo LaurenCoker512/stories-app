@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Story;
+use App\Models\Tag;
 
 class StoriesController extends Controller
 {
     public function index()
     {
-        $stories = Story::latest('updated_at')->get();
+        $stories = Story::latest('updated_at')->paginate(20);
+        $tags = Tag::withCount('stories')->orderBy('stories_count', 'desc')->take(10);
 
-        return view('stories.index', compact('stories'));
+        return view('stories.index', compact('stories', 'tags'));
     }
 
     public function create()

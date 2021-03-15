@@ -17,4 +17,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Story::class);
     }
+
+    public function path()
+    {
+        return "/tags/{$this->id}";
+    }
 }

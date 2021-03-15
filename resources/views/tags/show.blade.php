@@ -65,6 +65,8 @@
                 @empty
                     <div>There are no stories yet. Create one here!</div>
                 @endforelse
+
+                {{ $stories->links() }}
             </div>
         </div>
     </div>
