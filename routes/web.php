@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChaptersController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StoriesController;
-use App\Http\Controllers\StoryChaptersController;
 use App\Http\Controllers\TagsController;
 
 /*
@@ -25,6 +26,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::post('/stories/{story}/chapters/{chapterNum}/comments', [CommentsController::class, 'store']);
+
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/stories/create', [StoriesController::class, 'create']);
     Route::post('/stories', [StoriesController::class, 'store']);
@@ -32,17 +35,20 @@ Route::group(['middleware' => 'auth'], function() {
     Route::patch('/stories/{story}', [StoriesController::class, 'update']);
     Route::delete('/stories/{story}', [StoriesController::class, 'destroy']);
 
-    Route::get('/stories/{story}/chapters/create', [StoryChaptersController::class, 'create']);
-    Route::post('/stories/{story}/chapters', [StoryChaptersController::class, 'store']);
-    Route::get('/stories/{story}/chapters/{chapterNum}/edit', [StoryChaptersController::class, 'edit']);
-    Route::patch('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'update']);
-    Route::delete('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'destroy']);
+    Route::patch('/stories/{story}/chapters/{chapterNum}/comments/{comment}', [CommentsController::class, 'update']);
+    Route::delete('/stories/{story}/chapters/{chapterNum}/comments/{comment}', [CommentsController::class, 'destroy']);
+
+    Route::get('/stories/{story}/chapters/create', [ChaptersController::class, 'create']);
+    Route::post('/stories/{story}/chapters', [ChaptersController::class, 'store']);
+    Route::get('/stories/{story}/chapters/{chapterNum}/edit', [ChaptersController::class, 'edit']);
+    Route::patch('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'update']);
+    Route::delete('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'destroy']);
 });
 
 Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
 
 Route::get('/stories', [StoriesController::class, 'index']);
-Route::get('/stories/{story}/chapters/{chapterNum}', [StoryChaptersController::class, 'show']);
+Route::get('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'show']);
 
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/tags/{tag}', [TagsController::class, 'show']);

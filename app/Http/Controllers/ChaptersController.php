@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Chapter;
+use App\Models\Comment;
 use App\Models\Story;
 
-class StoryChaptersController extends Controller
+class ChaptersController extends Controller
 {
     public function show(Story $story, int $chapterNum)
     {
         $chapter = $story->getChapterByNumber($chapterNum);
 
-        return view('chapters.show', compact('story', 'chapter'));
+        $comments = $chapter->comments;
+
+        return view('chapters.show', compact('story', 'chapter', 'comments'));
     }
 
     public function create(Story $story)

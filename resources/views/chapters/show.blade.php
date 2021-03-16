@@ -71,6 +71,15 @@
                 </ul>
             </div>
             @endif
+            @if($comments->count() > 0)
+                @foreach($comments as $comment)
+                    <ul>
+                        <li>
+                            {{ $comment->user->name ?? 'Guest' }} - {{ $comment->body }}
+                        </li>
+                    </ul>
+                @endforeach
+            @endif
         </div>
     </div>
     

@@ -20,6 +20,11 @@ class Chapter extends Model
         return $this->belongsTo(Story::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getNumber()
     {
         $allChapters = $this->story->chapters->sortBy('created_at');
@@ -34,5 +39,13 @@ class Chapter extends Model
     public function path()
     {
         return "/stories/{$this->story->id}/chapters/{$this->getNumber()}";
+    }
+
+    public function addComment($body, $userId)
+    {
+        return $this->comments()->create([
+            'body' => $body,
+            'user_id' => $userId
+        ]);
     }
 }
