@@ -15,6 +15,11 @@ class StoriesTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
+    /**
+     * Tests that a user that is signed-out cannot create a story.
+     *
+     * @return void
+     */
     /** @test */
     public function guests_cannot_create_a_story()
     {
@@ -24,6 +29,11 @@ class StoriesTest extends TestCase
         $this->post('/stories', $attributes)->assertRedirect('login');
     }
 
+    /**
+     * Tests that a user that is signed-out cannot edit a story.
+     *
+     * @return void
+     */
     /** @test */
     public function guests_cannot_edit_a_story()
     {
@@ -32,6 +42,11 @@ class StoriesTest extends TestCase
         $this->get("/stories/{$story->id}/edit")->assertRedirect('login');
     }
 
+    /**
+     * Tests that a user that is signed-in can create a story.
+     *
+     * @return void
+     */
     /** @test */
     public function a_user_can_create_a_story()
     {
@@ -59,6 +74,12 @@ class StoriesTest extends TestCase
         $this->get('/stories')->assertSee($attributes['title']);
     }
 
+    /**
+     * Tests that a user that is signed-in as the creator of a story can edit
+     * that story.
+     *
+     * @return void
+     */
     /** @test */
     public function a_user_can_update_a_story()
     {
@@ -75,6 +96,12 @@ class StoriesTest extends TestCase
         $this->assertDatabaseHas('stories', $attributes);
     }
 
+    /**
+     * Tests that a user that is not signed in as the creator of a story
+     * cannot delete that story.
+     *
+     * @return void
+     */
     /** @test */
     public function unauthorized_users_cannot_delete_stories()
     {
@@ -89,6 +116,12 @@ class StoriesTest extends TestCase
             ->assertStatus(403);
     }
 
+    /**
+     * Tests that a user that is signed-in as the creator of a story can delete
+     * that story.
+     *
+     * @return void
+     */
     /** @test */
     public function a_user_can_delete_a_story()
     {
@@ -101,6 +134,11 @@ class StoriesTest extends TestCase
         $this->assertDatabaseMissing('stories', $story->only('id'));
     }
 
+    /**
+     * Tests that a user that is not signed-in can view a story.
+     *
+     * @return void
+     */
     /** @test */
     public function a_user_can_view_a_story()
     {
@@ -111,6 +149,12 @@ class StoriesTest extends TestCase
             ->assertSee($story->description);
     }
 
+    /**
+     * Tests that a user that is signed in cannot update a story created by
+     * another user.
+     *
+     * @return void
+     */
     /** @test */
     public function an_authenticated_user_cannot_update_the_stories_of_others()
     {
@@ -123,6 +167,12 @@ class StoriesTest extends TestCase
         $this->patch($story->path(), [])->assertStatus(403);
     }
 
+    /**
+     * Tests that session will have errors and store method will fail if story
+     * is submitted without a title.
+     *
+     * @return void
+     */
     /** @test */
     public function a_story_requires_a_title()
     {
@@ -133,6 +183,12 @@ class StoriesTest extends TestCase
         $this->post('/stories', $attributes)->assertSessionHasErrors('title');
     }
 
+    /**
+     * Tests that session will have errors and store method will fail if story
+     * is submitted without a description.
+     *
+     * @return void
+     */
     /** @test */
     public function a_story_requires_a_description()
     {
@@ -143,6 +199,12 @@ class StoriesTest extends TestCase
         $this->post('/stories', $attributes)->assertSessionHasErrors('description');
     }
 
+    /**
+     * Tests that a user that is not signed in as the owner of a dashboard
+     * cannot see links to edit and delete stories on that dashboard.
+     *
+     * @return void
+     */
     /** @test */
     public function unauthenticated_users_cannot_see_crud_links_on_dashboard()
     {

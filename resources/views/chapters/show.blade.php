@@ -11,7 +11,7 @@
             @endif
                 <h1>{{ $story->title }}</h1>
 
-                <h4><a href="{{ $story->user->path() }}" class="text-dark">{{ $story->user->name }}</a></h4>
+                <h2 class="h4"><a href="{{ $story->user->path() }}" class="text-dark">{{ $story->user->name }}</a></h2>
 
                 <p>{{ $story->description }}</p>
 
@@ -51,7 +51,95 @@
                     {{ $chapter->body }}
                 </article>
 
-                <a href="/stories" class="text-dark">Back to Stories</a>
+                <h3>Leave a comment</h3>
+
+                <form 
+                    class="mb-4" 
+                    method="POST" 
+                    action="/stories/{{ $story->id }}/chapters/{{ $chapter->getNumber() }}/comments">
+                    @csrf
+                    <div class="form-group">
+                        <label for="body" class="sr-only">Comment</label>
+                        <textarea 
+                            class="form-control" 
+                            id="body" 
+                            name="body"
+                            rows="4" 
+                            required
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </form>
+
+                @if($comments->count() > 0)
+                <h3>Comments</h3>
+                    @foreach($comments as $comment)
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $comment->user->name ?? 'Guest' }}</h5>
+                                <p>{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</p>
+                                <p class="card-text">{{ $comment->body }}</p>
+                                @can('update', $comment)
+                                <button 
+                                    type="button" 
+                                    class="btn btn-dark" 
+                                    data-toggle="modal" 
+                                    data-target="#comment-{{ $comment->id }}"
+                                >Edit Comment</button>
+                                <form method="POST" action="{{ $comment->path() }}" class="d-inline-block">
+                                    @method('DELETE')
+                                    @csrf
+                                    <input 
+                                        class="btn btn-dark" 
+                                        type="submit" 
+                                        value="Delete Comment" 
+                                        onclick="return confirm('Are you sure you want to delete this comment?');">
+                                </form>
+                                @endcan
+                            </div>
+                        </div>
+                        @can('update', $comment)
+                        <!-- Edit comment modal -->
+                        <div class="modal fade" id="comment-{{ $comment->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <form 
+                                        class="mb-4" 
+                                        method="POST" 
+                                        action="/stories/{{ $story->id }}/chapters/{{ $chapter->getNumber() }}/comments/{{ $comment->id }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                            <div class="form-group">
+                                                <label for="body" class="sr-only">Comment</label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="body" 
+                                                    name="body"
+                                                    rows="4" 
+                                                    required
+                                                >{{ $comment->body }}</textarea>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-dark">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endcan
+                    @endforeach
+                @endif
             </div>
             @if($story->chapters->count() > 1)
             <div class="col-md-3 col-12">
@@ -70,15 +158,6 @@
                     @endforeach
                 </ul>
             </div>
-            @endif
-            @if($comments->count() > 0)
-                @foreach($comments as $comment)
-                    <ul>
-                        <li>
-                            {{ $comment->user->name ?? 'Guest' }} - {{ $comment->body }}
-                        </li>
-                    </ul>
-                @endforeach
             @endif
         </div>
     </div>

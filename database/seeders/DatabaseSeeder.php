@@ -13,14 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Seed chapters - each will be created with a story, which will be
-        // created with a user
-        $chapters = \App\Models\Chapter::factory(30)->create();
+        // Seed comment - each will be created with a chapter, which will be
+        // created with a story, which will be created with a user
+
+        $comments = \App\Models\Comment::factory(30)->create();
         $tags = \App\Models\Tag::factory(5)->create();
 
-        foreach ($chapters as $chapter) {
-            // Attach tags to chapter stories
-            $chapter->story->updateTags($tags);
+        foreach ($comments as $comment) {
+            // Attach tags to stories
+            $comment->chapter->story->updateTags($tags);
         }
     }
 }

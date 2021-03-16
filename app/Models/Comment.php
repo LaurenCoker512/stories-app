@@ -30,4 +30,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Chapter::class);
     }
+
+    public function path()
+    {
+        return "/stories/{$this->chapter->story->id}/chapters/{$this->chapter->getNumber()}/comments/{$this->id}";
+    }
 }

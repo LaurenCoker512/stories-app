@@ -69,4 +69,13 @@ class StoriesController extends Controller
 
         return redirect('/dashboard/' . auth()->id());
     }
+
+    public function search(string $input)
+    {
+        $stories = Story::where('description', 'LIKE', "%{$input}%") 
+            ->orWhere('title', 'LIKE', "%{$input}%") 
+            ->get();
+
+        return view('stories.search', compact('stories'));
+    }
 }

@@ -16,7 +16,8 @@ class ChapterCommentsTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /**
-     * A basic feature test example.
+     * Tests that a comment can be added to a chapter, and a user other than
+     * the creator can view the comment.
      *
      * @return void
      */
@@ -39,6 +40,12 @@ class ChapterCommentsTest extends TestCase
 
     }
 
+    /**
+     * Tests that a user that is not signed in can leave a comment on a 
+     * chapter.
+     *
+     * @return void
+     */
     /** @test */
     public function guests_can_leave_comments()
     {
@@ -54,6 +61,12 @@ class ChapterCommentsTest extends TestCase
             ->assertSee('Lorem ipsum');
     }
 
+    /**
+     * Tests that a user that created a comment and is signed-in can edit that
+     * comment.
+     *
+     * @return void
+     */
     /** @test */
     public function an_authenticated_user_can_edit_their_comment()
     {
@@ -75,6 +88,12 @@ class ChapterCommentsTest extends TestCase
             ->assertSee('Lorem ipsum edited');
     }
 
+    /**
+     * Tests that a user that is either signed out or not the creator of a
+     * comment cannot edit it.
+     *
+     * @return void
+     */
     /** @test */
     public function unauthorized_users_cannot_edit_comments()
     {
@@ -93,6 +112,12 @@ class ChapterCommentsTest extends TestCase
         $this->assertDatabaseMissing('comments', ['body' => 'Lorem ipsum edited']);
     }
 
+    /**
+     * Tests that a user that created a comment and is signed-in can delete that
+     * comment.
+     *
+     * @return void
+     */
     /** @test */
     public function an_authenticated_user_can_delete_their_comment()
     {
@@ -104,6 +129,12 @@ class ChapterCommentsTest extends TestCase
         $this->assertDatabaseMissing('comments', $comment->only('id'));
     }
 
+    /**
+     * Tests that a user that created the story associated with a comment can
+     * delete that comment.
+     *
+     * @return void
+     */
     /** @test */
     public function the_owner_of_a_chapter_can_delete_a_comment()
     { 
@@ -115,6 +146,12 @@ class ChapterCommentsTest extends TestCase
         $this->assertDatabaseMissing('comments', $comment->only('id'));
     }
 
+    /**
+     * Tests that a user that is either signed out or not the creator of a
+     * comment cannot delete it.
+     *
+     * @return void
+     */
     /** @test */
     public function unauthorized_users_cannot_delete_comments()
     {
