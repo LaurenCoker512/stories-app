@@ -24,9 +24,9 @@
                 @if(auth()->id() === $story->user->id)
                 <div>
                     <a href="{{ $story->path() }}/chapters/create" class="btn btn-dark" role="button">Add Chapter</a>
-                    <a href="" class="btn btn-dark" role="button">Edit Story</a>
-                    <a href="{{ $chapter->path()/edit }}" class="btn btn-dark" role="button">Edit Chapter</a>
-                    <form method="POST" action="{{ $story->path() }}">
+                    <a href="{{ $story->path() }}/edit" class="btn btn-dark" role="button">Edit Story</a>
+                    <a href="{{ $chapter->path() }}/edit" class="btn btn-dark" role="button">Edit Chapter</a>
+                    <form method="POST" action="{{ $story->path() }}" class="d-inline-block">
                         @method('DELETE')
                         @csrf
                         <input 
@@ -35,8 +35,7 @@
                             value="Delete Story" 
                             onclick="return confirm('Are you sure you want to delete this story?');">
                     </form>
-                    <a href="/tags" class="btn btn-dark" role="button">Delete Chapter</a>
-                    <form method="POST" action="{{ $chapter->path() }}">
+                    <form method="POST" action="{{ $chapter->path() }}" class="d-inline-block">
                         @method('DELETE')
                         @csrf
                         <input 
