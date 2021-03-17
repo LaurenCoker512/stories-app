@@ -230,4 +230,23 @@ class StoriesTest extends TestCase
             ->assertSee('Edit')
             ->assertSee('Delete');
     }
+
+    /**
+     * Tests that a user can search for a word, and any stories with that word
+     * in the title or description will show up.
+     *
+     * @return void
+     */
+    /** @test */
+    public function a_user_can_search_for_a_story()
+    {
+        $story1 = Story::factory()->create(['title' => 'Hello there']);
+        $story2 = Story::factory()->create(['description' => 'Well hello again.']);
+        $story3 = Story::factory()->create();
+
+        $this->get('/search?search=hello')
+            ->assertSee($story1->description)
+            ->assertSee($story2->title)
+            ->assertDontSee($story3->title);
+    }
 }

@@ -16,11 +16,10 @@ class StoryChaptersTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic feature test example.
+     * Tests that users that are not signed-in cannot add a chapter to a story.
      *
      * @return void
      */
-
     /** @test */
     public function guests_cannot_add_chapters_to_stories()
     {
@@ -30,6 +29,12 @@ class StoryChaptersTest extends TestCase
             ->assertRedirect('login');
     }
 
+    /**
+     * Tests that a user that is not signed in as the creator of the story
+     * cannot add chapters to it.
+     *
+     * @return void
+     */
     /** @test */
     public function only_the_owner_of_a_story_may_add_chapters()
     {   

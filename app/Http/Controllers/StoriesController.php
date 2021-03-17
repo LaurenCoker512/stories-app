@@ -70,11 +70,14 @@ class StoriesController extends Controller
         return redirect('/dashboard/' . auth()->id());
     }
 
-    public function search(string $input)
+    public function search(Request $request)
     {
-        $stories = Story::where('description', 'LIKE', "%{$input}%") 
-            ->orWhere('title', 'LIKE', "%{$input}%") 
-            ->get();
+        $search = $request->input('search');
+
+        $stories = Story::query()
+            ->where('description', 'LIKE', "%{$search}%") 
+            ->orWhere('title', 'LIKE', "%{$search}%") 
+            ->paginate(20);
 
         return view('stories.search', compact('stories'));
     }

@@ -13,11 +13,10 @@ class ChapterTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic unit test example.
+     * Tests that a chapter belongs to a story.
      *
      * @return void
      */
-
     /** @test */
     public function it_belongs_to_a_story()
     {
@@ -26,6 +25,11 @@ class ChapterTest extends TestCase
         $this->assertInstanceOf(Story::class, $chapter->story);
     }
 
+    /**
+     * Tests that the $chapter->path() method will lead to the chapter's path.
+     *
+     * @return void
+     */
     /** @test */
     public function it_has_a_path()
     {

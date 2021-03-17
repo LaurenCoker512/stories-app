@@ -53,3 +53,5 @@ Route::get('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class,
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/tags/{tag}', [TagsController::class, 'show']);
 
+Route::get('/search/', [StoriesController::class, 'search']);
+

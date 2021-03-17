@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="container mb-4">
+    <section class="container mt-4 mb-4">
         <div class="row">
             <div class="col-12">
                 <h1>Search Results</h1>
@@ -23,6 +23,12 @@
                 @empty
                     <div>There are no results for that query.</div>
                 @endforelse
+
+                <br/>
+
+                {{ $stories->links() }}
+
+                <br/>
             </div>
         </div>
     </section>
