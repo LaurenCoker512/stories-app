@@ -48,6 +48,12 @@ class StoryChaptersTest extends TestCase
         $this->assertDatabaseMissing('chapters', ['body' => 'Test body']);
     }
 
+    /**
+     * Tests that a user that is not signed in as the creator of the story
+     * cannot update one of its chapters.
+     *
+     * @return void
+     */
     /** @test */
     public function only_the_owner_of_a_story_may_update_a_chapter()
     {   
@@ -63,6 +69,12 @@ class StoryChaptersTest extends TestCase
         $this->assertDatabaseMissing('chapters', ['body' => 'Test body updated']);
     }
 
+    /**
+     * Tests that the owner of a story can add a chapter to it, and that chapter 
+     * will show up when a user visits the story's first chapter.
+     *
+     * @return void
+     */
     /** @test */
     public function a_story_can_have_chapters()
     {
@@ -75,6 +87,36 @@ class StoryChaptersTest extends TestCase
             ->assertSee('Lorem ipsum');
     }
 
+    /**
+     * Tests that the owner of a story can add multiple chapters to a story,
+     * and those chapters will be numbered in the order they are created.
+     *
+     * @return void
+     */
+    /** @test */
+    public function a_story_can_have_multiple_chapters()
+    {
+        $story = StoryFactory::create();
+
+        $this->actingAs($story->user)
+            ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
+
+        $this->actingAs($story->user)
+            ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum2']);
+
+        $this->get($story->firstChapterPath())
+            ->assertSee('Lorem ipsum');
+
+        $this->get($story->path() . '/chapters/2')
+            ->assertSee('Lorem ipsum2');
+
+    }
+
+    /**
+     * Tests that the owner of a story can update one of its chapters.
+     *
+     * @return void
+     */
     /** @test */
     public function a_chapter_can_be_updated()
     {
@@ -90,6 +132,11 @@ class StoryChaptersTest extends TestCase
         ]);
     }
 
+    /**
+     * Tests that the owner of a story can delete one of its chapters.
+     *
+     * @return void
+     */
     /** @test */
     public function a_chapter_can_be_deleted()
     {
@@ -105,6 +152,12 @@ class StoryChaptersTest extends TestCase
         ]);
     }
 
+    /**
+     * Tests that a chapter must have be submitted with a body, and session
+     * errors will appear if it is not.
+     *
+     * @return void
+     */
     /** @test */
     public function a_chapter_requires_a_body()
     {

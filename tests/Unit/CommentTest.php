@@ -11,6 +11,11 @@ class CommentTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests that the $comment->path() method will lead to the comment's path.
+     *
+     * @return void
+     */
     /** @test */
     public function it_has_a_path()
     {
