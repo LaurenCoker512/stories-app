@@ -51,6 +51,16 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function subscribers()
+    {
+        return $this->morphMany(Subscription::class, 'subscribable');
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
     public function path()
     {
         return "/dashboard/{$this->id}";

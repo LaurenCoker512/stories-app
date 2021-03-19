@@ -11,7 +11,12 @@ class Chapter extends Model
 
     protected $fillable = ['body'];
 
-    protected $guarded = ['id', 'title', 'created_at', 'updated_at'];
+    protected $guarded = [
+        'id', 
+        'title', 
+        'created_at', 
+        'updated_at'
+    ];
 
     protected $touches = ['story'];
 

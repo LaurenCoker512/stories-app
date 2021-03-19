@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Story;
 use App\Models\Tag;
 
+use App\Events\StoryCreated;
+
 class StoriesController extends Controller
 {
     public function index()

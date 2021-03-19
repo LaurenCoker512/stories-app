@@ -5,6 +5,7 @@ use App\Http\Controllers\ChaptersController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StoriesController;
+use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\TagsController;
 
 /*
@@ -43,6 +44,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/stories/{story}/chapters/{chapterNum}/edit', [ChaptersController::class, 'edit']);
     Route::patch('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'update']);
     Route::delete('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'destroy']);
+
+    Route::get('/subscriptions', [SubscriptionsController::class, 'index']);
+    Route::post('/subscriptions/story/{story}', [SubscriptionsController::class, 'createStorySub']);
+    Route::post('/subscriptions/user/{user}', [SubscriptionsController::class, 'createUserSub']);
+    Route::delete('/subscriptions/story/{story}', [SubscriptionsController::class, 'deleteStorySub']);
+    Route::delete('/subscriptions/user/{user}', [SubscriptionsController::class, 'deleteUserSub']);
 });
 
 Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
@@ -53,5 +60,5 @@ Route::get('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class,
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/tags/{tag}', [TagsController::class, 'show']);
 
-Route::get('/search/', [StoriesController::class, 'search']);
+Route::get('/search', [StoriesController::class, 'search']);
 

@@ -7,6 +7,12 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+use App\Events\StoryCreated;
+use App\Events\StoryUpdated;
+use App\Listeners\SendStoryUpdatedNotification;
+use App\Listeners\SendStoryCreatedNotification;
+use App\Listeners\SendWelcomeEmail;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -17,7 +23,14 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            SendWelcomeEmail::class,
         ],
+        StoryUpdated::class => [
+            SendStoryUpdatedNotification::class,
+        ],
+        StoryCreated::class => [
+            SendStoryCreatedNotification::class,
+        ]
     ];
 
     /**

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Events\StoryCreated;
+use App\Events\StoryUpdated;
+
 class Story extends Model
 {
     use HasFactory;
@@ -46,9 +49,22 @@ class Story extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function subscribers()
+    {
+        return $this->morphMany(Subscription::class, 'subscribable');
+    }
+
     public function addChapter($body)
     {
-        return $this->chapters()->create(compact('body'));
+        $chapter = $this->chapters()->create(compact('body'));
+
+        if ($this->chapters->count() > 1) {
+            StoryUpdated::dispatch($this);
+        } else {
+            StoryCreated::dispatch($this);
+        }
+
+        return $chapter;
     }
 
     public function getChapterByNumber($num)
