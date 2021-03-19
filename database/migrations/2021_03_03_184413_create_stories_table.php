@@ -18,6 +18,7 @@ class CreateStoriesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('title');
             $table->text('description');
+            $table->string('type'); // can be fiction, nonfiction, or poetry
             $table->timestamps();
         });
 

@@ -63,6 +63,7 @@ class StoriesTest extends TestCase
         $response = $this->post('/stories', [
             'title' => $attributes['title'],
             'description' => $attributes['description'],
+            'type' => $attributes['type'],
             'user_id' => $attributes['user_id'],
             'first-chapter' => "A test first chapter body"
         ]);

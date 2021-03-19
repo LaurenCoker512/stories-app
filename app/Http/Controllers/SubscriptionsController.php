@@ -17,7 +17,7 @@ class SubscriptionsController extends Controller
                             ->get();
 
         $stories = $storySubscriptions->map(function ($item) {
-            return $item->story;
+            return $item->subscribable;
         });
 
         $userSubscriptions = auth()->user()
@@ -28,7 +28,7 @@ class SubscriptionsController extends Controller
         $userStories = collect();
 
         $userSubscriptions->each(function ($item) {
-            $userStories->merge($item->user->stories);
+            $userStories->merge($item->subscribable->stories);
         });
 
         $subscriptions = $stories->merge($userStories)

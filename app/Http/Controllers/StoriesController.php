@@ -15,7 +15,13 @@ class StoriesController extends Controller
         $stories = Story::latest('updated_at')->take(20)->get();
         $tags = Tag::withCount('stories')->orderBy('stories_count', 'desc')->take(10)->get();
 
-        return view('stories.index', compact('stories', 'tags'));
+        $typeCounts = [
+            'fiction' => Story::fiction()->count(),
+            'nonfiction' => Story::nonfiction()->count(),
+            'poetry' => Story::poetry()->count()
+        ];
+
+        return view('stories.index', compact('stories', 'tags', 'typeCounts'));
     }
 
     public function create()
@@ -28,7 +34,8 @@ class StoriesController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required', 
-            'description' => 'required'
+            'description' => 'required',
+            'type' => 'required'
         ]);
 
         $story = auth()->user()->stories()->create($attributes);
@@ -55,7 +62,8 @@ class StoriesController extends Controller
 
         $attributes = request()->validate([
             'title' => 'sometimes|required|min:1', 
-            'description' => 'sometimes|required|min:1'
+            'description' => 'sometimes|required|min:1',
+            'type' => 'sometimes|required|min:1'
         ]);
 
         $story->update($attributes);
@@ -70,6 +78,15 @@ class StoriesController extends Controller
         $story->delete();
 
         return redirect('/dashboard/' . auth()->id());
+    }
+
+    public function getType(Request $request)
+    {
+        $type = $request->input('type');
+
+        $stories = Story::$type()->paginate(20);
+
+        return view('stories.type', compact('stories', 'type'));
     }
 
     public function search(Request $request)

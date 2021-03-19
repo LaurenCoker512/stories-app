@@ -21,6 +21,21 @@
                 @endforelse
             </div>
             <div class="col-md-3 col-12">
+                <h2>Browse Categories</h2>
+                <ul class="list-group mt-4 mb-4">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/stories/browse?type=fiction" class="text-dark">Fiction</a>
+                        <span class="badge badge-dark badge-pill">{{ $typeCounts['fiction'] }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/stories/browse?type=nonfiction" class="text-dark">Nonfiction</a>
+                        <span class="badge badge-dark badge-pill">{{ $typeCounts['nonfiction'] }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/stories/browse?type=poetry" class="text-dark">Poetry</a>
+                        <span class="badge badge-dark badge-pill">{{ $typeCounts['poetry'] }}</span>
+                    </li>
+                </ul>
                 <h2>Popular Tags</h2>
                 <ul class="list-group mt-4 mb-4">
                     @foreach($tags as $tag)

@@ -15,6 +15,7 @@ class Story extends Model
     protected $fillable = [
         'title',
         'description',
+        'type',
         'user_id'
     ];
 
@@ -81,5 +82,20 @@ class Story extends Model
     public function updateTags($tags)
     {
         return $this->tags()->sync($tags);
+    }
+
+    public function scopeFiction($query)
+    {
+        return $query->where('type', 'fiction');
+    }
+
+    public function scopeNonfiction($query)
+    {
+        return $query->where('type', 'nonfiction');
+    }
+
+    public function scopePoetry($query)
+    {
+        return $query->where('type', 'poetry');
     }
 }

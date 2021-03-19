@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function() {
 Route::get('/dashboard/{user}', [DashboardController::class, 'index']);
 
 Route::get('/stories', [StoriesController::class, 'index']);
+Route::get('/stories/browse', [StoriesController::class, 'getType']);
 Route::get('/stories/{story}/chapters/{chapterNum}', [ChaptersController::class, 'show']);
 
 Route::get('/tags', [TagsController::class, 'index']);

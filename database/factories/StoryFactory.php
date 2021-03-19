@@ -25,6 +25,7 @@ class StoryFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
+            'type' => $this->faker->randomElement(['fiction', 'nonfiction', 'poetry']),
             'user_id' => function() {
                 return User::factory()->create()->id;
             }

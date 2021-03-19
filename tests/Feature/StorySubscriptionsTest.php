@@ -197,6 +197,7 @@ class StorySubscriptionsTest extends TestCase
         $this->actingAs($story->user)->post('/stories', [
             'title' => $story2['title'],
             'description' => $story2['description'],
+            'type' => $story2['type'],
             'user_id' => $story2['user_id'],
             'first-chapter' => "A test first chapter body"
         ]);

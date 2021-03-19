@@ -28,6 +28,14 @@
     @enderror
 </div>
 <div class="form-group">
+    <label for="type">Example select</label>
+    <select class="form-control" id="type" name="type">
+        <option value="fiction">Fiction</option>
+        <option value="nonfiction">Nonfiction</option>
+        <option value="poetry">Poetry</option>
+    </select>
+</div>
+<div class="form-group">
     <label for="tags">Tags</label>
     <select multiple class="form-control" id="tags" name="tags">
     @foreach($tags as $tag)
