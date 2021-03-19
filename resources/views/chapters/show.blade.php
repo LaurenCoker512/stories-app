@@ -9,6 +9,26 @@
             @else
             <div class="col-12">
             @endif
+                <!-- Subscribe/Unsubscribe -->
+                @if(auth()->id() && (auth()->id() !== $story->user->id) && !$userIsSubscribed)
+                <form method="POST" action="/subscriptions/story/{{ $story->id }}" class="d-inline-block float-right">
+                    @csrf
+                    <input 
+                        class="btn btn-dark" 
+                        type="submit" 
+                        value="Subscribe">
+                </form>
+                @elseif(auth()->id() && (auth()->id() !== $story->user->id) && $userIsSubscribed)
+                <form method="POST" action="/subscriptions/story/{{ $story->id }}" class="d-inline-block float-right">
+                    @method('DELETE')
+                    @csrf
+                    <input 
+                        class="btn btn-dark" 
+                        type="submit" 
+                        value="Unsubscribe">
+                </form>
+                @endif
+
                 <h1>{{ $story->title }}</h1>
 
                 <h2 class="h4"><a href="{{ $story->user->path() }}" class="text-dark">{{ $story->user->name }}</a></h2>

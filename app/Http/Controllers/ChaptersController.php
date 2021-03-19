@@ -15,7 +15,11 @@ class ChaptersController extends Controller
 
         $comments = $chapter->comments;
 
-        return view('chapters.show', compact('story', 'chapter', 'comments'));
+        $userIsSubscribed = (bool) auth()->user() && auth()->user()->subscriptions->first(function ($item, $key) use ($story) {
+            return $item->subscribable_type === 'App\Models\Story' && $item->subscribable_id === $story->id;
+        });
+
+        return view('chapters.show', compact('story', 'chapter', 'comments', 'userIsSubscribed'));
     }
 
     public function create(Story $story)

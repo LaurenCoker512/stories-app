@@ -4,9 +4,28 @@
 
     <section class="container mt-4">
         @if(auth()->id() === $user->id)
-        <h1>Welcome, {{ auth()->user()->name }}!</h1>
+            <h1>Welcome, {{ auth()->user()->name }}!</h1>
         @else
-        <h1>{{ $user->name }}'s Stories</h1>
+            <!-- Subscribe/Unsubscribe -->
+            @if(auth()->id() && !$userIsSubscribed)
+            <form method="POST" action="/subscriptions/user/{{ $user->id }}" class="d-inline-block float-right">
+                @csrf
+                <input 
+                    class="btn btn-dark" 
+                    type="submit" 
+                    value="Subscribe">
+            </form>
+            @elseif(auth()->id() && $userIsSubscribed)
+            <form method="POST" action="/subscriptions/user/{{ $user->id }}" class="d-inline-block float-right">
+                @method('DELETE')
+                @csrf
+                <input 
+                    class="btn btn-dark" 
+                    type="submit" 
+                    value="Unsubscribe">
+            </form>
+            @endif
+            <h1>{{ $user->name }}'s Stories</h1>
         @endif
         <div class="row">
             @if(auth()->id() === $user->id)
@@ -20,27 +39,7 @@
             @endif
 
                 @forelse($stories as $story)
-                    <div class="card mt-4" style="width: 100%;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $story->title }}</h5>
-                            <p class="card-text">
-                                {{ $story->description }}
-                            </p>
-                            <a href="{{ $story->firstChapterPath() }}" class="btn btn-dark">View</a>
-                            @if(auth()->id() === $user->id)
-                            <a href="{{ $story->path() }}/edit" class="btn btn-dark">Edit Story</a>
-                            <form method="POST" action="{{ $story->path() }}" class="d-inline-block">
-                                @method('DELETE')
-                                @csrf
-                                <input 
-                                    class="btn btn-dark" 
-                                    type="submit" 
-                                    value="Delete Story" 
-                                    onclick="return confirm('Are you sure you want to delete this story?');">
-                            </form>
-                            @endif
-                        </div>
-                    </div>
+                    <x-story :story="$story" :user="$story->user"/>
                 @empty
                     @if(auth()->id() === $user->id)
                         <div class="mt-4">You haven't posted any stories yet.</div>

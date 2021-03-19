@@ -11,6 +11,10 @@ class DashboardController extends Controller
     {
         $stories = $user->stories;
 
-        return view('dashboard.index', compact('stories', 'user'));
+        $userIsSubscribed = (bool) auth()->user() && auth()->user()->subscriptions->first(function ($item, $key) use ($user) {
+            return $item->subscribable_type === 'App\Models\User' && $item->subscribable_id === $user->id;
+        });
+
+        return view('dashboard.index', compact('stories', 'user', 'userIsSubscribed'));
     }
 }
