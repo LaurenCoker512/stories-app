@@ -33,26 +33,29 @@ class SubscriptionsController extends Controller
 
         $subscriptions = $stories->merge($userStories)
                                 ->unique()
-                                ->orderBy('updated_at')
-                                ->get();
+                                ->sortByDesc('updated_at');
 
         return view('subscriptions.index', compact('subscriptions'));
     }
 
     public function createStorySub(Story $story)
     {
-        $story->subscribers()->create([
-            'user_id' => auth()->id()
-        ]);
+        if (!$story->subscribers()->where('user_id', auth()->id())->first()) {
+            $story->subscribers()->create([
+                'user_id' => auth()->id()
+            ]);
+        }
 
         return back();
     }
 
     public function createUserSub(User $user)
     {
-        $user->subscribers()->create([
-            'user_id' => auth()->id()
-        ]);
+        if (!$user->subscribers()->where('user_id', auth()->id())->first()) {
+            $user->subscribers()->create([
+                'user_id' => auth()->id()
+            ]);
+        }
 
         return back();
     }

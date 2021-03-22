@@ -7,6 +7,9 @@ use App\Models\Chapter;
 use App\Models\Comment;
 use App\Models\Story;
 
+use App\Http\Requests\StoreChapterRequest;
+use App\Http\Requests\UpdateChapterRequest;
+
 class ChaptersController extends Controller
 {
     public function show(Story $story, int $chapterNum)
@@ -29,11 +32,11 @@ class ChaptersController extends Controller
         return view('chapters.create', compact('story'));
     }
 
-    public function store(Story $story)
+    public function store(StoreChapterRequest $request, Story $story)
     {
-        $this->authorize('update', $story);
+        $validated = $request->validated();
 
-        request()->validate(['body' => 'required']);
+        $this->authorize('update', $story);
 
         $story->addChapter(request('body'));
 
@@ -47,11 +50,13 @@ class ChaptersController extends Controller
         return view('chapters.edit', compact('chapter'));
     }
 
-    public function update(Story $story, int $chapterNum)
+    public function update(UpdateChapterRequest $request, Story $story, int $chapterNum)
     {
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $validated = $request->validated();
 
-        $this->authorize('update', $chapter->story);
+        $this->authorize('update', $story);
+
+        $chapter = $story->getChapterByNumber($chapterNum);
 
         $chapter->update([
             'body' => request('body')

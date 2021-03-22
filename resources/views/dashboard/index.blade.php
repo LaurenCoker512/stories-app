@@ -64,6 +64,10 @@
                     <div class="mt-4">You haven't subscribed to any stories yet.</div>
                 @endforelse
 
+                @if(count($authorSubs) > 5)
+                    <a href="/subscriptions" class="btn btn-dark" role="button">View All Subscriptions</a>
+                @endif
+
             </div>
             @endif
         </div>

@@ -8,6 +8,9 @@ use App\Models\Tag;
 
 use App\Events\StoryCreated;
 
+use App\Http\Requests\StoreStoryRequest;
+use App\Http\Requests\UpdateStoryRequest;
+
 class StoriesController extends Controller
 {
     public function index()
@@ -30,15 +33,11 @@ class StoriesController extends Controller
         return view('stories.create', compact('tags'));
     }
 
-    public function store()
+    public function store(StoreStoryRequest $request)
     {
-        $attributes = request()->validate([
-            'title' => 'required', 
-            'description' => 'required',
-            'type' => 'required'
-        ]);
+        $validated = $request->validated();
 
-        $story = auth()->user()->stories()->create($attributes);
+        $story = auth()->user()->stories()->create($validated);
 
         // TODO: Add tags
 
@@ -56,17 +55,13 @@ class StoriesController extends Controller
         return view('stories.edit', compact('story', 'tags'));
     }
 
-    public function update(Story $story)
+    public function update(UpdateStoryRequest $request, Story $story)
     {
         $this->authorize('update', $story);
 
-        $attributes = request()->validate([
-            'title' => 'sometimes|required|min:1', 
-            'description' => 'sometimes|required|min:1',
-            'type' => 'sometimes|required|min:1'
-        ]);
+        $validated = $request->validated();
 
-        $story->update($attributes);
+        $story->update($validated);
 
         return redirect($story->firstChapterPath());
     }
