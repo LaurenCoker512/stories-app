@@ -23,4 +23,9 @@ class TagsController extends Controller
 
         return view('tags.show', compact('tag', 'stories'));
     }
+
+    public function create()
+    {
+        
+    }
 }

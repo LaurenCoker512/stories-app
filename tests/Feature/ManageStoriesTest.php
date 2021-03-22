@@ -51,7 +51,7 @@ class StoriesTest extends TestCase
     public function a_user_can_create_a_story()
     {
         $this->withoutExceptionHandling();
-        
+
         $user = User::factory()->create();
 
         $this->signIn($user);
