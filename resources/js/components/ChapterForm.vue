@@ -180,6 +180,7 @@
         Underline,
         History,
     } from 'tiptap-extensions'
+    import VueSanitize from 'vue-sanitize';
 
     export default {
         components: {
@@ -221,7 +222,7 @@
                         new Underline(),
                         new History(),
                     ],
-                    content: this.body || '<p>Click here to write your chapter!</p>',
+                    content: this.$sanitize(this.body) || '<p>Click here to write your chapter!</p>',
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.fields.body = getHTML();
                     }

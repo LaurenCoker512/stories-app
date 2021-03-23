@@ -68,7 +68,7 @@
                 @endif
 
                 <article class="mt-4 mb-4">
-                    {!! $chapter->body !!}
+                    {!! clean($chapter->body) !!}
                 </article>
 
                 <h3>Leave a comment</h3>
