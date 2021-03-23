@@ -48,7 +48,7 @@ class ManageStoriesTest extends TestCase
     {
         $story = Story::factory()->create();
 
-        $this->assertInstanceOf('App\Models\User', $story->user);
+        $this->assertInstanceOf('App\Models\User', $story->author);
     }
 
     /**

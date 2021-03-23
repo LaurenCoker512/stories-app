@@ -123,7 +123,7 @@ class ChapterCommentsTest extends TestCase
     {
         $comment = Comment::factory()->create();
 
-        $this->actingAs($comment->user)
+        $this->actingAs($comment->author)
             ->delete("{$comment->chapter->path()}/comments/{$comment->id}");
 
         $this->assertDatabaseMissing('comments', $comment->only('id'));
@@ -140,7 +140,7 @@ class ChapterCommentsTest extends TestCase
     { 
         $comment = Comment::factory()->create();
 
-        $this->actingAs($comment->chapter->story->user)
+        $this->actingAs($comment->chapter->story->author)
             ->delete("{$comment->chapter->path()}/comments/{$comment->id}");
 
         $this->assertDatabaseMissing('comments', $comment->only('id'));

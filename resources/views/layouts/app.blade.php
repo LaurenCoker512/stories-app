@@ -24,6 +24,12 @@
     <div id="app">
         @include('partials.nav')
 
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <main>
             @yield('content')
         </main>

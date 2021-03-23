@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>{{ $story->user->name }} has posted a new story!</title>
+    <title>{{ $story->author->name }} has posted a new story!</title>
     <style>
     @media only screen and (max-width: 620px) {
       table[class=body] h1 {
@@ -107,7 +107,7 @@
                     <tr>
                       <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hey {{ $user->name }}</p>
-                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">An author you're subscribed to, {{ $story->user->name }}, has posted a new story, {{ $story->title }}! Check it out below.</p>
+                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">An author you're subscribed to, {{ $story->author->name }}, has posted a new story, {{ $story->title }}! Check it out below.</p>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
                           <tbody>
                             <tr>

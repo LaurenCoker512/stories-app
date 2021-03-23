@@ -39,7 +39,7 @@
             @endif
 
                 @forelse($stories as $story)
-                    <x-story :story="$story" :user="$story->user"/>
+                    <x-story :story="$story" :user="$story->author"/>
                 @empty
                     @if(auth()->id() === $user->id)
                         <div class="mt-4">You haven't posted any stories yet.</div>
@@ -59,7 +59,7 @@
                 <h2>Your Subscriptions</h2>
 
                 @forelse($authorSubs as $story)
-                    <x-story :story="$story" :user="$story->user"/>
+                    <x-story :story="$story" :user="$story->author"/>
                 @empty
                     <div class="mt-4">You haven't subscribed to any stories yet.</div>
                 @endforelse

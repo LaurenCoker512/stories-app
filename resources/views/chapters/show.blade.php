@@ -10,7 +10,7 @@
             <div class="col-12">
             @endif
                 <!-- Subscribe/Unsubscribe -->
-                @if(auth()->id() && (auth()->id() !== $story->user->id) && !$userIsSubscribed)
+                @if(auth()->id() && (auth()->id() !== $story->author->id) && !$userIsSubscribed)
                 <form method="POST" action="/subscriptions/story/{{ $story->id }}" class="d-inline-block float-right">
                     @csrf
                     <input 
@@ -18,7 +18,7 @@
                         type="submit" 
                         value="Subscribe">
                 </form>
-                @elseif(auth()->id() && (auth()->id() !== $story->user->id) && $userIsSubscribed)
+                @elseif(auth()->id() && (auth()->id() !== $story->author->id) && $userIsSubscribed)
                 <form method="POST" action="/subscriptions/story/{{ $story->id }}" class="d-inline-block float-right">
                     @method('DELETE')
                     @csrf
@@ -31,7 +31,7 @@
 
                 <h1>{{ $story->title }}</h1>
 
-                <h2 class="h4"><a href="{{ $story->user->path() }}" class="text-dark">{{ $story->user->name }}</a></h2>
+                <h2 class="h4"><a href="{{ $story->author->path() }}" class="text-dark">{{ $story->author->name }}</a></h2>
 
                 <p>{{ $story->description }}</p>
 
@@ -41,7 +41,7 @@
                 @endforeach
                 </div>
 
-                @if(auth()->id() === $story->user->id)
+                @if(auth()->id() === $story->author->id)
                 <div>
                     <a href="{{ $story->path() }}/chapters/create" class="btn btn-dark" role="button">Add Chapter</a>
                     <a href="{{ $story->path() }}/edit" class="btn btn-dark" role="button">Edit Story</a>
@@ -96,7 +96,7 @@
                     @foreach($comments as $comment)
                         <div class="card mt-4">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $comment->user->name ?? 'Guest' }}</h5>
+                                <h5 class="card-title">{{ $comment->author->name ?? 'Guest' }}</h5>
                                 <p>{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</p>
                                 <p class="card-text">{{ $comment->body }}</p>
                                 @can('update', $comment)

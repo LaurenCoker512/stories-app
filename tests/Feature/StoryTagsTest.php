@@ -72,7 +72,7 @@ class StoryTagsTest extends TestCase
 
         $story = StoryFactory::create();
         
-        $this->signIn($story->user);
+        $this->signIn($story->author);
 
         $story->updateTags($tags);
 
@@ -94,7 +94,7 @@ class StoryTagsTest extends TestCase
 
         $story = StoryFactory::create();
         
-        $this->signIn($story->user);
+        $this->signIn($story->author);
 
         $story->updateTags($tags);
 

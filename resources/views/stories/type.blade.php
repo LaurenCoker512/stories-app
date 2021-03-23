@@ -7,7 +7,7 @@
                 <h1>{{ ucfirst($type) }} Stories</h1>
 
                 @forelse($stories as $story)
-                    <x-story :story="$story" :user="$story->user"/>
+                    <x-story :story="$story" :user="$story->author"/>
                 @empty
                     <div>There are no stories in this category yet.</div>
                 @endforelse

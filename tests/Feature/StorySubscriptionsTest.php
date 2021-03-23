@@ -180,7 +180,7 @@ class StorySubscriptionsTest extends TestCase
         $user = User::factory()->create();
 
         $this->signIn($user);
-        $this->post('/subscriptions/user/' . $story->user->id);
+        $this->post('/subscriptions/user/' . $story->author->id);
 
         $story->addChapter(null, 'Chapter added');
 
@@ -192,9 +192,9 @@ class StorySubscriptionsTest extends TestCase
             }
         );
 
-        $story2 = Story::factory()->raw(['user_id' => $story->user->id]);
+        $story2 = Story::factory()->raw(['user_id' => $story->author->id]);
 
-        $this->actingAs($story->user)->post('/stories', [
+        $this->actingAs($story->author)->post('/stories', [
             'title' => $story2['title'],
             'description' => $story2['description'],
             'type' => $story2['type'],

@@ -95,7 +95,7 @@ class StoriesTest extends TestCase
             'description' => 'Changed'
         ];
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->patch($story->path(), $attributes)->assertJson([
                 'redirect' => Story::where($attributes)->first()->firstChapterPath()
             ]);
@@ -136,9 +136,9 @@ class StoriesTest extends TestCase
     {
         $story = StoryFactory::create();
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->delete($story->path())
-            ->assertRedirect('/dashboard/' . $story->user->id);
+            ->assertRedirect('/dashboard/' . $story->author->id);
 
         $this->assertDatabaseMissing('stories', $story->only('id'));
     }

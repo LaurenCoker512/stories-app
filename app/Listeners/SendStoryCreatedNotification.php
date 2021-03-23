@@ -28,7 +28,7 @@ class SendStoryCreatedNotification
      */
     public function handle(StoryCreated $event)
     {
-        $authorSubscribers = $event->story->user->subscribers;
+        $authorSubscribers = $event->story->author->subscribers;
 
         foreach ($authorSubscribers as $subscriber) {
             $subscriber->user->notify(new StoryCreatedNotification($event->story, $subscriber->user));

@@ -8,7 +8,7 @@
 
             <div class="col-12">
                 @forelse($subscriptions as $story)
-                    <x-story :story="$story" :user="$story->user"/>
+                    <x-story :story="$story" :user="$story->author"/>
                 @empty
                     @if(auth()->id() === $user->id)
                         <div class="mt-4">You haven't posted any stories yet.</div>

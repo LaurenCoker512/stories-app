@@ -85,7 +85,7 @@ class StoryChaptersTest extends TestCase
     {
         $story = StoryFactory::create();
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
 
         $this->get($story->firstChapterPath())
@@ -103,10 +103,10 @@ class StoryChaptersTest extends TestCase
     {
         $story = StoryFactory::create();
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum']);
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->post($story->path() . '/chapters', ['body' => 'Lorem ipsum2']);
 
         $this->get($story->firstChapterPath())
@@ -128,7 +128,7 @@ class StoryChaptersTest extends TestCase
         $story = StoryFactory::withChapters(1)
                     ->create();
 
-        $this->actingAs($story->user)->patch($story->chapters[0]->path(), [
+        $this->actingAs($story->author)->patch($story->chapters[0]->path(), [
             'body' => 'Changed and even more text'
         ]);
 
@@ -148,9 +148,9 @@ class StoryChaptersTest extends TestCase
         $story = StoryFactory::withChapters(1)
                     ->create();
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->delete($story->chapters[0]->path())
-            ->assertRedirect('/dashboard/' . $story->user->id);
+            ->assertRedirect('/dashboard/' . $story->author->id);
 
         $this->assertDatabaseMissing('chapters', [
             'story_id' => $story->id
@@ -170,7 +170,7 @@ class StoryChaptersTest extends TestCase
 
         $attributes = Chapter::factory()->raw(['body' => '']);
 
-        $this->actingAs($story->user)
+        $this->actingAs($story->author)
             ->post($story->path() . '/chapters', $attributes)
             ->assertSessionHasErrors('body');
     }

@@ -4,7 +4,7 @@
             <a href="{{ $story->firstChapterPath() }}" class="text-dark">{{ $story->title }}</a>
         </h5>
         <p class="card-text font-weight-bold">
-            <a href="{{ $story->user->path() }}" class="text-dark">{{ $user->name }}</a>
+            <a href="{{ $story->author->path() }}" class="text-dark">{{ $user->name }}</a>
         </p>
         <p class="card-text">
             {{ $story->description }}

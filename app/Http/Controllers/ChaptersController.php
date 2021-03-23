@@ -40,6 +40,8 @@ class ChaptersController extends Controller
 
         $story->addChapter($validated['name'], $validated['body']);
 
+        $request->session()->flash('status', 'New chapter was posted!');
+
         return response()->json([
             'redirect' => $story->firstChapterPath()
         ]);
@@ -61,6 +63,8 @@ class ChaptersController extends Controller
         $chapter = $story->getChapterByNumber($chapterNum);
 
         $chapter->update($validated);
+
+        $request->session()->flash('status', 'Chapter was updated!');
 
         return response()->json([
             'redirect' => $chapter->path()

@@ -20,6 +20,8 @@ class CommentsController extends Controller
 
         $chapter->addComment(request('body'), auth()->id() ?? null);
 
+        $request->session()->flash('status', 'Comment was posted!');
+
         return redirect($chapter->path());
     }
 
@@ -34,6 +36,8 @@ class CommentsController extends Controller
         $comment->update([
             'body' => request('body')
         ]);
+
+        $request->session()->flash('status', 'Comment was updated!');
 
         return redirect($chapter->path());
     }

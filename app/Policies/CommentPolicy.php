@@ -12,6 +12,6 @@ class CommentPolicy
 
     public function update(User $user, Comment $comment)
     {
-        return $user->is($comment->user) || $user->is($comment->chapter->story->user);
+        return $user->is($comment->author) || $user->is($comment->chapter->story->author);
     }
 }

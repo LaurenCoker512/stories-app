@@ -45,6 +45,8 @@ class StoriesController extends Controller
 
         $story->addChapter(null, request('first_chapter'));
 
+        $request->session()->flash('status', 'New story was posted!');
+
         return response()->json([
             'redirect' => $story->firstChapterPath()
         ]);
@@ -70,6 +72,8 @@ class StoriesController extends Controller
         if($request->has('tags')) {
             $story->updateTags(array_column($request->input('tags'), 'id'));
         }
+
+        $request->session()->flash('status', 'Story was updated!');
 
         return response()->json([
             'redirect' => $story->firstChapterPath()

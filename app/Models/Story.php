@@ -35,9 +35,9 @@ class Story extends Model
         return "/stories/{$this->id}/chapters/1";
     }
 
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function chapters()

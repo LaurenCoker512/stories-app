@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $story->title }}</h5>
                             <p class="card-text font-weight-bold">
-                                <a href="{{ $story->user->path() }}" class="text-dark">{{ $story->user->name }}</a>
+                                <a href="{{ $story->author->path() }}" class="text-dark">{{ $story->author->name }}</a>
                             </p>
                             <p class="card-text">
                                 {{ $story->description }}
