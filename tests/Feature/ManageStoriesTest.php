@@ -65,10 +65,12 @@ class StoriesTest extends TestCase
             'description' => $attributes['description'],
             'type' => $attributes['type'],
             'user_id' => $attributes['user_id'],
-            'first-chapter' => "A test first chapter body"
+            'first_chapter' => "A test first chapter body"
         ]);
 
-        $response->assertRedirect(Story::where($attributes)->first()->firstChapterPath());
+        $response->assertJson([
+            'redirect' => Story::where($attributes)->first()->firstChapterPath()
+        ]);
 
         $this->assertDatabaseHas('stories', $attributes);
 
@@ -84,13 +86,19 @@ class StoriesTest extends TestCase
     /** @test */
     public function a_user_can_update_a_story()
     {
+        $this->withoutExceptionHandling();
+        
         $story = StoryFactory::create();
 
+        $attributes = [
+            'title' => $story->title,
+            'description' => 'Changed'
+        ];
+
         $this->actingAs($story->user)
-            ->patch($story->path(), $attributes = [
-                'title' => $story->title,
-                'description' => 'Changed'
-            ])->assertRedirect($story->firstChapterPath());
+            ->patch($story->path(), $attributes)->assertJson([
+                'redirect' => Story::where($attributes)->first()->firstChapterPath()
+            ]);
 
         $this->get($story->path() . '/edit')->assertOk();
 

@@ -39,11 +39,15 @@ class StoriesController extends Controller
 
         $story = auth()->user()->stories()->create($validated);
 
-        // TODO: Add tags
+        if($request->has('tags')) {
+            $story->updateTags(array_column($request->input('tags'), 'id'));
+        }
 
-        $story->addChapter(request('first-chapter'));
+        $story->addChapter(null, request('first_chapter'));
 
-        return redirect($story->firstChapterPath());
+        return response()->json([
+            'redirect' => $story->firstChapterPath()
+        ]);
     }
 
     public function edit(Story $story)
@@ -63,7 +67,13 @@ class StoriesController extends Controller
 
         $story->update($validated);
 
-        return redirect($story->firstChapterPath());
+        if($request->has('tags')) {
+            $story->updateTags(array_column($request->input('tags'), 'id'));
+        }
+
+        return response()->json([
+            'redirect' => $story->firstChapterPath()
+        ]);
     }
 
     public function destroy(Story $story)

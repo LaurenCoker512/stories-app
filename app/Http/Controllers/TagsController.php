@@ -24,8 +24,23 @@ class TagsController extends Controller
         return view('tags.show', compact('tag', 'stories'));
     }
 
-    public function create()
+    public function store()
     {
-        
+        $tag = Tag::firstOrCreate(['name' => request('name')]);
+
+        return response()->json([
+            'id' => $tag->id,
+            'name' => $tag->name
+        ]);
+    }
+
+    public function search()
+    {
+        $query = urldecode(request('query'));
+
+        return Tag::query()
+            ->where('name', 'LIKE', "%{$query}%") 
+            ->get()
+            ->toJson();
     }
 }

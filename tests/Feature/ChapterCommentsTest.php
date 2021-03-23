@@ -26,7 +26,7 @@ class ChapterCommentsTest extends TestCase
     {
         $story = Story::factory()->create();
 
-        $chapter = $story->addChapter('This is a chapter');
+        $chapter = $story->addChapter(null, 'This is a chapter');
 
         $this->signIn();
 

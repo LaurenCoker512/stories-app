@@ -27,8 +27,9 @@ class StoreStoryRequest extends FormRequest
     {
         return [
             'title' => 'required|min:2|max:255',
-            'description' => 'required|min:2',
-            'type' => 'required|validtype'
+            'description' => 'required|min:2|max:1000',
+            'type' => 'required|validtype',
+            'first_chapter' => 'required|min:10'
         ];
     }
 

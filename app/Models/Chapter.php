@@ -9,11 +9,13 @@ class Chapter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['body'];
+    protected $fillable = [
+        'name',
+        'body'
+    ];
 
     protected $guarded = [
         'id', 
-        'title', 
         'created_at', 
         'updated_at'
     ];

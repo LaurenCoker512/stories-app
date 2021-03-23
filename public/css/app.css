@@ -10968,4 +10968,8 @@ a.text-dark:focus {
   border: solid 1px #343a40;
 }
 
+.ProseMirror {
+  padding: 1rem;
+}
+
 

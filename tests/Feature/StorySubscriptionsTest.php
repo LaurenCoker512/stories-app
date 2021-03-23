@@ -152,7 +152,7 @@ class StorySubscriptionsTest extends TestCase
         $this->signIn();
         $this->post('/subscriptions/story/' . $story->id);
 
-        $story->addChapter('Chapter added');
+        $story->addChapter(null, 'Chapter added');
 
         Notification::assertSentTo(
             [auth()->user()], 
@@ -182,7 +182,7 @@ class StorySubscriptionsTest extends TestCase
         $this->signIn($user);
         $this->post('/subscriptions/user/' . $story->user->id);
 
-        $story->addChapter('Chapter added');
+        $story->addChapter(null, 'Chapter added');
 
         Notification::assertSentTo(
             [auth()->user()], 
@@ -199,7 +199,7 @@ class StorySubscriptionsTest extends TestCase
             'description' => $story2['description'],
             'type' => $story2['type'],
             'user_id' => $story2['user_id'],
-            'first-chapter' => "A test first chapter body"
+            'first_chapter' => "A test first chapter body"
         ]);
 
         $this->signIn($user);

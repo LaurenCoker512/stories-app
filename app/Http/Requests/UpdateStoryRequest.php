@@ -25,7 +25,7 @@ class UpdateStoryRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|required|min:2|max:255', 
-            'description' => 'sometimes|required|min:2',
+            'description' => 'sometimes|required|min:2|max:1000',
             'type' => 'sometimes|required|validtype'
         ];
     }

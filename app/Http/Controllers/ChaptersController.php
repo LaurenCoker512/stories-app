@@ -38,9 +38,11 @@ class ChaptersController extends Controller
 
         $this->authorize('update', $story);
 
-        $story->addChapter(request('body'));
+        $story->addChapter($validated['name'], $validated['body']);
 
-        return redirect($story->firstChapterPath());
+        return response()->json([
+            'redirect' => $story->firstChapterPath()
+        ]);
     }
 
     public function edit(Story $story, int $chapterNum)
@@ -58,11 +60,11 @@ class ChaptersController extends Controller
 
         $chapter = $story->getChapterByNumber($chapterNum);
 
-        $chapter->update([
-            'body' => request('body')
-        ]);
+        $chapter->update($validated);
 
-        return redirect($story->firstChapterPath());
+        return response()->json([
+            'redirect' => $chapter->path()
+        ]);
     }
 
     public function destroy(Story $story, int $chapterNum)

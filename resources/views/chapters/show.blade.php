@@ -35,7 +35,7 @@
 
                 <p>{{ $story->description }}</p>
 
-                <div>
+                <div class="mb-4">
                 @foreach($story->tags as $tag)
                     <a href="{{ $tag->path() }}" class="badge badge-dark">{{ $tag->name }}</a>
                 @endforeach
@@ -68,7 +68,7 @@
                 @endif
 
                 <article class="mt-4 mb-4">
-                    {{ $chapter->body }}
+                    {!! $chapter->body !!}
                 </article>
 
                 <h3>Leave a comment</h3>

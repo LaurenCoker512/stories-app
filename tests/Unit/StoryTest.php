@@ -61,7 +61,7 @@ class ManageStoriesTest extends TestCase
     {
         $story = Story::factory()->create();
 
-        $chapter = $story->addChapter('Test body');
+        $chapter = $story->addChapter(null, 'Test body');
 
         $this->assertCount(1, $story->chapters);
         $this->assertTrue($story->chapters->contains($chapter));

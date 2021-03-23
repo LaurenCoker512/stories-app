@@ -55,9 +55,9 @@ class Story extends Model
         return $this->morphMany(Subscription::class, 'subscribable');
     }
 
-    public function addChapter($body)
+    public function addChapter($name, $body)
     {
-        $chapter = $this->chapters()->create(compact('body'));
+        $chapter = $this->chapters()->create(compact('name', 'body'));
 
         if ($this->chapters->count() > 1) {
             StoryUpdated::dispatch($this);

@@ -42,10 +42,15 @@ class StoryChaptersTest extends TestCase
 
         $story = Story::factory()->create();
 
-        $this->post($story->path() . '/chapters', ['body' => 'Test body'])
-            ->assertStatus(403);
+        $this->post($story->path() . '/chapters', [
+            'name' => 'Test name',
+            'body' => 'Test body and even more text'
+        ])->assertStatus(403);
 
-        $this->assertDatabaseMissing('chapters', ['body' => 'Test body']);
+        $this->assertDatabaseMissing('chapters', [
+            'name' => 'Test name',
+            'body' => 'Test body and even more text'
+        ]);
     }
 
     /**
@@ -124,11 +129,11 @@ class StoryChaptersTest extends TestCase
                     ->create();
 
         $this->actingAs($story->user)->patch($story->chapters[0]->path(), [
-            'body' => 'Changed'
+            'body' => 'Changed and even more text'
         ]);
 
         $this->assertDatabaseHas('chapters', [
-            'body' => 'Changed'
+            'body' => 'Changed and even more text'
         ]);
     }
 

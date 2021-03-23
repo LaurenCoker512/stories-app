@@ -6,11 +6,17 @@
     <div class="row">
         <div class="col-12">
             <h1>Create a New Story</h1>
-            <form method="POST" action="/stories">
 
-            @include('stories.form', ['story' => new App\Models\Story, 'method' => 'store'])
+            <story-form
+                method="store"
+            ></story-form>
+            {{-- <form method="POST" action="/stories"> --}}
 
-            </form>
+            {{-- @include('stories.form', ['story' => new App\Models\Story, 'method' => 'store']) --}}
+
+            {{-- </form> --}}
+
+            
         </div>
     </div>
 </div>

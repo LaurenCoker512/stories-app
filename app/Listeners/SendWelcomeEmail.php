@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-use App\Mailable\NewUserWelcome;
+use App\Mail\NewUserWelcome;
 
 class SendWelcomeEmail
 {

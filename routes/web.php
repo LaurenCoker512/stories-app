@@ -115,6 +115,8 @@ Route::get(
 )->name('chapters.show');
 
 // Tag routes
+Route::get('/tags/search', [TagsController::class, 'search'])->name('tags.search');
+
 Route::resource('tags', TagsController::class)->only([
     'index', 'show', 'store'
 ])->names([

@@ -5,7 +5,7 @@
         <h1 class="display-4 text-white text-center" style="text-shadow: black 0.04em 0.04em 0.04em; font-family: 'Dancing Script', cursive;">Welcome to Stories!</h1>
         <p class="lead text-white text-center" style="text-shadow: black 0.05em 0.05em 0.05em;">We're an archive of all sorts of writing, from fiction to nonfiction to poetry.</p>
         <p class="lead text-white text-center">
-            <a class="btn btn-outline-light btn-lg" href="#" role="button">Create a Story</a>
+            <a class="btn btn-outline-light btn-lg" href="/stories/create" role="button">Create a Story</a>
         </p>
     </div>
 
@@ -41,7 +41,7 @@
                     @foreach($tags as $tag)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{{ $tag->path() }}" class="text-dark">{{ $tag->name }}</a>
-                        <span class="badge badge-dark badge-pill">{{ $tag->story_count }}</span>
+                        <span class="badge badge-dark badge-pill">{{ $tag['stories_count'] }}</span>
                     </li>
                     @endforeach
                 </ul>

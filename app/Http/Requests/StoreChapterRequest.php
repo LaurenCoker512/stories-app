@@ -24,8 +24,8 @@ class StoreChapterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'min:2|max:255',
-            'body' => 'required|min:2'
+            'name' => 'max:255',
+            'body' => 'required|min:10'
         ];
     }
 }
