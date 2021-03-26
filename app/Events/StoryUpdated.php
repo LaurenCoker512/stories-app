@@ -17,15 +17,19 @@ class StoryUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $story;
+    public $chapterName;
+    public $chapterNum;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Story $story)
+    public function __construct(Story $story, $chapterName, int $chapterNum)
     {
         $this->story = $story;
+        $this->chapterName = $chapterName;
+        $this->chapterNum = $chapterNum;
     }
 
     /**

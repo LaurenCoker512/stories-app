@@ -31,7 +31,7 @@
                         @if($chapter->name)
                             {{ $chapter->name }}
                         @else
-                            Chapter {{ $chapter->getNumber() }}
+                            Chapter {{ \App\Facades\StoryChapterFacade::getChapterNumFromId($chapter->id) }}
                         @endif
                     </a></li>
                     

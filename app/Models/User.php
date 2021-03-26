@@ -41,6 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function avatar()
+    {
+        return $this->hasOne(Avatar::class);
+    }
+
     public function stories()
     {
         return $this->hasMany(Story::class)->latest('updated_at');
@@ -64,5 +69,13 @@ class User extends Authenticatable
     public function path()
     {
         return "/dashboard/{$this->id}";
+    }
+
+    public function getUserAvatar()
+    {
+        return $this->avatar ? ($this->avatar->image_type === 'upload' ?
+            $this->avatar->image_upload :
+            $this->avatar->image_url) :
+            "/img/avatar-placeholder.png";
     }
 }

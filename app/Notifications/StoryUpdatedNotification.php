@@ -17,6 +17,8 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     public $story;
+    public $chapterName;
+    public $chapterNum;
     public $user;
 
     /**
@@ -24,9 +26,11 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Story $story, User $user)
+    public function __construct(Story $story, $chapterName, int $chapterNum, User $user)
     {
         $this->story = $story;
+        $this->chapterName = $chapterName;
+        $this->chapterNum = $chapterNum;
         $this->user = $user;
     }
 
@@ -38,7 +42,7 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -49,7 +53,7 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new Mailable($this->story, $this->user))->to($notifiable->email);
+        return (new Mailable($this->story, $this->chapterName, $this->chapterNum, $this->user))->to($notifiable->email);
     }
 
     /**
@@ -62,6 +66,8 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
     {
         return [
             'story_id' => $this->story->id,
+            'chapter_name' => $this->chapterName,
+            'chapter_num' => $this->chapterNum,
             'user_id' => $this->user->id,
         ];
     }

@@ -37,7 +37,7 @@ class StoryCreated extends Mailable
     {
         return $this
             ->from('laurenekcoker@gmail.com')
-            ->subject($this->author->user->name . ' has posted a new story!')
+            ->subject($this->story->author->name . ' has posted a new story!')
             ->view('emails.story-created')
             ->text('emails.story-created_plain');
     }

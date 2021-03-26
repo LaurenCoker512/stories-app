@@ -15,6 +15,8 @@ class StoryUpdated extends Mailable
     use Queueable, SerializesModels;
 
     public $story;
+    public $chapterName;
+    public $chapterNum;
     public $user;
 
     /**
@@ -22,9 +24,11 @@ class StoryUpdated extends Mailable
      *
      * @return void
      */
-    public function __construct(Story $story, User $user)
+    public function __construct(Story $story, $chapterName, $chapterNum, User $user)
     {
         $this->story = $story;
+        $this->chapterName = $chapterName;
+        $this->chapterNum = $chapterNum;
         $this->user = $user;
     }
 

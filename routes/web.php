@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChaptersController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\TagsController;
@@ -93,6 +94,12 @@ Route::group(['middleware' => 'auth'], function() {
         '/subscriptions/user/{user}', 
         [SubscriptionsController::class, 'deleteUserSub']
     )->name('subscriptions.user.delete');
+
+    // User dashboard
+    Route::post('/dashboard/{user}/image', [ImageUploadController::class, 'upload']);
+
+    // Notifications
+    Route::get('/notifications', [DashboardController::class, 'getNotifications']);
 });
 
 // User dashboard

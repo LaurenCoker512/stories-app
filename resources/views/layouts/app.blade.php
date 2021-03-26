@@ -22,7 +22,12 @@
 </head>
 <body>
     <div id="app">
-        @include('partials.nav')
+        {{-- @include('partials.nav') --}}
+        <navbar
+            guest="{{ Auth::check() ? false : true }}"
+            auth-name="{{ Auth::check() ? Auth::user()->name : '' }}"
+            auth-id="{{ Auth::check() ? Auth::user()->id : '' }}"
+        ></navbar>
 
         @if (session('status'))
             <div class="alert alert-success">

@@ -6,8 +6,11 @@ services:
       - myapp
     volumes:
       - .:/var/www
+      # - ./public:/var/www/storage/app/public
   web:
-    image: gentux/nginx:fpm
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     links:
       - "app:fpm.local"
     networks:
@@ -16,6 +19,7 @@ services:
       - "80:80"
     volumes:
       - ./public:/var/www/public
+      - ./storage/app/public:/storage
   mysql:
     image: mysql:5.6
     environment:

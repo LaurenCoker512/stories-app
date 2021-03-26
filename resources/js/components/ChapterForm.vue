@@ -222,7 +222,7 @@
                         new Underline(),
                         new History(),
                     ],
-                    content: this.$sanitize(this.body) || '<p>Click here to write your chapter!</p>',
+                    content: this.body ? this.$sanitize(this.body) : '<p>Click here to write your chapter!</p>',
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.fields.body = getHTML();
                     }

@@ -32,11 +32,11 @@ class SendStoryUpdatedNotification implements ShouldQueue
         $authorSubscribers = $event->story->author->subscribers;
 
         foreach ($subscribers as $subscriber) {
-            $subscriber->user->notify(new StoryUpdatedNotification($event->story, $subscriber->user));
+            $subscriber->user->notify(new StoryUpdatedNotification($event->story, $event->chapterName, $event->chapterNum, $subscriber->user));
         }
 
         foreach ($authorSubscribers as $subscriber) {
-            $subscriber->user->notify(new StoryUpdatedNotification($event->story, $subscriber->user));
+            $subscriber->user->notify(new StoryUpdatedNotification($event->story, $event->chapterName, $event->chapterNum, $subscriber->user));
         }
     }
 }

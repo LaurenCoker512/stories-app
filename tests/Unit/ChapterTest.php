@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Facades\StoryChapterFacade;
 use App\Models\Chapter;
 use App\Models\Story;
 
@@ -36,7 +37,7 @@ class ChapterTest extends TestCase
         $chapter = Chapter::factory()->create();
 
         $this->assertEquals(
-            '/stories/' . $chapter->story->id . '/chapters/' . $chapter->getNumber(), 
+            '/stories/' . $chapter->story->id . '/chapters/' . StoryChapterFacade::getChapterNumFromId($chapter->id), 
             $chapter->path());
     }
 }

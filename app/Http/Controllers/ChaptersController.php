@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Facades\StoryChapterFacade;
 use App\Models\Chapter;
 use App\Models\Comment;
 use App\Models\Story;
@@ -14,7 +16,7 @@ class ChaptersController extends Controller
 {
     public function show(Story $story, int $chapterNum)
     {
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $comments = $chapter->comments;
 
@@ -49,7 +51,7 @@ class ChaptersController extends Controller
 
     public function edit(Story $story, int $chapterNum)
     {
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         return view('chapters.edit', compact('chapter'));
     }
@@ -60,7 +62,7 @@ class ChaptersController extends Controller
 
         $this->authorize('update', $story);
 
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $chapter->update($validated);
 
@@ -73,7 +75,7 @@ class ChaptersController extends Controller
 
     public function destroy(Story $story, int $chapterNum)
     {
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $this->authorize('update', $story);
 

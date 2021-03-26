@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\StoryCreated;
 use App\Events\StoryUpdated;
 
+use App\Facades\StoryChapterFacade;
+
 class Story extends Model
 {
     use HasFactory;
@@ -60,7 +62,7 @@ class Story extends Model
         $chapter = $this->chapters()->create(compact('name', 'body'));
 
         if ($this->chapters->count() > 1) {
-            StoryUpdated::dispatch($this);
+            StoryUpdated::dispatch($this, $chapter->name ?? null, StoryChapterFacade::getChapterNumFromId($chapter->id));
         } else {
             StoryCreated::dispatch($this);
         }
@@ -68,16 +70,16 @@ class Story extends Model
         return $chapter;
     }
 
-    public function getChapterByNumber($num)
-    {
-        $allChapters = $this->chapters->sortBy('created_at');
+    // public function getChapterByNumber($num)
+    // {
+    //     $allChapters = $this->chapters->sortBy('created_at');
 
-        foreach($allChapters as $i=>$chapter) {
-            if ($i + 1 === $num) {
-                return $chapter;
-            }
-        }
-    }
+    //     foreach($allChapters as $i=>$chapter) {
+    //         if ($i + 1 === $num) {
+    //             return $chapter;
+    //         }
+    //     }
+    // }
 
     public function updateTags($tags)
     {

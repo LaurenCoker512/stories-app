@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
-                <h1>Update {{ $chapter->story->title }} - {{ $chapter->name ?? 'Chapter ' . $chapter->getNumber() }}</h1>
+                <h1>Update {{ $chapter->story->title }} - {{ $chapter->name ?? 'Chapter ' . \App\Facades\StoryChapterFacade::getChapterNumFromId($chapter->id) }}</h1>
                 {{-- <form method="POST" action="{{ $chapter->story->path() }}" class="mb-4">
                     @method('PATCH')
                 

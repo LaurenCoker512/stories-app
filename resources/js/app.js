@@ -29,6 +29,7 @@ Vue.use(VueSanitize);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.component('navbar', require('./components/Navbar.vue').default);
 Vue.component('story-form', require('./components/StoryForm.vue').default);
 Vue.component('chapter-form', require('./components/ChapterForm.vue').default);
 

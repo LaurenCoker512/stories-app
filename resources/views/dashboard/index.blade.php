@@ -56,6 +56,16 @@
             </div>
             @if(auth()->id() === $user->id)
             <div class="col-md-3 col-12">
+                <img src="{{ $user->getUserAvatar() }}">
+                <button 
+                    type="button" 
+                    class="btn btn-dark d-block" 
+                    data-toggle="modal" 
+                    data-target="#avatar-upload"
+                >Upload an Avatar</button>
+
+                <br/>
+
                 <h2>Your Subscriptions</h2>
 
                 @forelse($authorSubs as $story)
@@ -72,5 +82,44 @@
             @endif
         </div>
     </section>
+
+    <div class="modal fade" id="avatar-upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form 
+                    class="mb-4" 
+                    method="POST" 
+                    action="/dashboard/{{ $user->id }}/image"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create an Avatar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group">
+                            <label for="image">Upload a new image</label>
+                            <input id="image" type="file" class="form-control-file" name="image">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url">Link to an existing image</label>
+                            <input id="url" type="text" class="form-control" name="url">
+                        </div>
+
+                        <small>Note: If you upload an image, that will take precedence over a link.</small>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-dark">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection

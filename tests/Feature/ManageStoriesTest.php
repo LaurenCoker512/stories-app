@@ -222,20 +222,17 @@ class StoriesTest extends TestCase
         $stories = Story::factory()->count(5)->create(['user_id' => $user->id]);
 
         $this->get('/dashboard/' . $user->id)
-            ->assertDontSee('Welcome')
             ->assertDontSee('Edit')
             ->assertDontSee('Delete');
 
         $this->signIn();
 
         $this->get('/dashboard/' . $user->id)
-            ->assertSee('Welcome')
             ->assertDontSee('Edit')
             ->assertDontSee('Delete');
 
         $this->actingAs($user)
             ->get('/dashboard/' . $user->id)
-            ->assertSee('Welcome')
             ->assertSee('Edit')
             ->assertSee('Delete');
     }
@@ -253,7 +250,7 @@ class StoriesTest extends TestCase
         $story2 = Story::factory()->create(['description' => 'Well hello again.']);
         $story3 = Story::factory()->create();
 
-        $this->get('/search?search=hello')
+        $this->get('/search?query=hello')
             ->assertSee($story1->description)
             ->assertSee($story2->title)
             ->assertDontSee($story3->title);

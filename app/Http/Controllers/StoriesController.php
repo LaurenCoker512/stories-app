@@ -100,7 +100,7 @@ class StoriesController extends Controller
 
     public function search(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->query('query');
 
         $stories = Story::query()
             ->where('description', 'LIKE', "%{$search}%") 

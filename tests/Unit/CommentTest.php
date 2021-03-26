@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Facades\StoryChapterFacade;
 use App\Models\Comment;
 
 class CommentTest extends TestCase
@@ -22,7 +23,7 @@ class CommentTest extends TestCase
         $comment = Comment::factory()->create();
 
         $this->assertEquals(
-            '/stories/' . $comment->chapter->story->id . '/chapters/' . $comment->chapter->getNumber() . '/comments/' . $comment->id, 
+            '/stories/' . $comment->chapter->story->id . '/chapters/' . StoryChapterFacade::getChapterNumFromId($comment->chapter->id) . '/comments/' . $comment->id, 
             $comment->path());
     }
 }

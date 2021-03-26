@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class DashboardController extends Controller
@@ -41,5 +42,12 @@ class DashboardController extends Controller
         });
 
         return view('dashboard.index', compact('stories', 'user', 'userIsSubscribed', 'authorSubs'));
+    }
+
+    public function getNotifications()
+    {
+        $notifications = auth()->user()->unreadNotifications;
+
+        return response()->json($notifications);
     }
 }

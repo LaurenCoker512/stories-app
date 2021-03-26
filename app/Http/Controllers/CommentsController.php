@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Facades\StoryChapterFacade;
 use App\Models\Chapter;
 use App\Models\Comment;
 use App\Models\Story;
@@ -16,7 +18,7 @@ class CommentsController extends Controller
     {
         $validated = $request->validated();
 
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $chapter->addComment(request('body'), auth()->id() ?? null);
 
@@ -31,7 +33,7 @@ class CommentsController extends Controller
 
         $this->authorize('update', $comment);
 
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $comment->update([
             'body' => request('body')
@@ -46,7 +48,7 @@ class CommentsController extends Controller
     {
         $this->authorize('update', $comment);
 
-        $chapter = $story->getChapterByNumber($chapterNum);
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
 
         $comment->delete();
 
