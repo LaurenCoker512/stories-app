@@ -50,6 +50,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_receives_an_email_after_registering()
     {
+        $this->withoutExceptionHandling();
+        
         Mail::fake();
 
         $user = User::factory()->raw(['email_verified_at' => null, 'remember_token' => null]);
@@ -57,7 +59,7 @@ class UserTest extends TestCase
 
         $this->post('/register', $user);
 
-        Mail::assertSent(NewUserWelcome::class);
+        Mail::assertQueued(NewUserWelcome::class);
     }
 
 }

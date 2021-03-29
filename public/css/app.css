@@ -10972,4 +10972,24 @@ a.text-dark:focus {
   padding: 1rem;
 }
 
+.img-circular {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+}
+
+.img-circular-small {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+}
+
 

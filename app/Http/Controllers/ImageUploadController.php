@@ -11,6 +11,9 @@ use Image;
 
 use App\Models\Avatar;
 
+/**
+ * This class is a controller for uploading images via file or URL.
+ */
 class ImageUploadController extends Controller
 {
     /**
@@ -36,11 +39,22 @@ class ImageUploadController extends Controller
         if ($request->has('image')) {
             $this->storeImage($request);
         } else {
-            Avatar::create([
+            $avatar = Avatar::where('user_id', auth()->id());
+
+            if ($avatar->exists()) {
+              $avatar->update([
                 'image_type' => 'url',
                 'image_url' => $request->input('url'),
-                'user_id' => auth()->id()
-            ]);
+                'image_upload' => null
+              ]);
+            } else {
+              Avatar::create([
+                'user_id' => auth()->id(),
+                'image_type' => 'url',
+                'image_url' => $request->input('url'),
+                'image_upload' => null
+              ]);
+            }
         }
 
         $request->session()->flash('status', 'Avatar successfully created!');
@@ -107,11 +121,22 @@ class ImageUploadController extends Controller
         $save = Storage::put("public/images/{$fileNameToStore}", $resize->__toString());
 
         // Save image url to DB
-        Avatar::create([
+        $avatar = Avatar::where('user_id', auth()->id());
+
+        if ($avatar->exists()) {
+          $avatar->update([
             'image_type' => 'upload',
-            'image_upload' => "/storage/images/{$fileNameToStore}",
-            'user_id' => auth()->id()
-        ]);
+            'image_url' => null,
+            'image_upload' => "/storage/images/{$fileNameToStore}"
+          ]);
+        } else {
+          Avatar::create([
+            'user_id' => auth()->id(),
+            'image_type' => 'upload',
+            'image_url' => null,
+            'image_upload' => "/storage/images/{$fileNameToStore}"
+          ]);
+        }
   
         if($save) {
           return true;

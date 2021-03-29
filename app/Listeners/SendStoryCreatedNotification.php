@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Events\StoryCreated;
 use App\Notifications\StoryCreatedNotification;
 
-class SendStoryCreatedNotification
+class SendStoryCreatedNotification implements ShouldQueue
 {
     /**
      * Create the event listener.

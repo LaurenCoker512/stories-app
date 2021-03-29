@@ -18,7 +18,7 @@ class CreateAvatarsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('image_type'); // Can be file or URL
             $table->string('image_upload')->nullable();
-            $table->string('image_url')->nullable();
+            $table->text('image_url')->nullable();
             $table->timestamps();
         });
 

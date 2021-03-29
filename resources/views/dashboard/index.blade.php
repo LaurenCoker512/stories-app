@@ -56,13 +56,23 @@
             </div>
             @if(auth()->id() === $user->id)
             <div class="col-md-3 col-12">
-                <img src="{{ $user->getUserAvatar() }}">
+                <div 
+                    class="img-circular mb-4 ml-auto mr-auto" 
+                    style="background-image: url('{{ $user->getUserAvatar() }}');">
+                </div>
+                
                 <button 
                     type="button" 
-                    class="btn btn-dark d-block" 
+                    class="btn btn-dark d-block ml-auto mr-auto" 
                     data-toggle="modal" 
                     data-target="#avatar-upload"
-                >Upload an Avatar</button>
+                >
+                    @if($user->avatar)
+                    Change Avatar
+                    @else
+                    Upload an Avatar
+                    @endif
+                </button>
 
                 <br/>
 

@@ -27,6 +27,7 @@
             guest="{{ Auth::check() ? false : true }}"
             auth-name="{{ Auth::check() ? Auth::user()->name : '' }}"
             auth-id="{{ Auth::check() ? Auth::user()->id : '' }}"
+            auth-avatar="{{ Auth::check() ? Auth::user()->getUserAvatar() : '' }}"
         ></navbar>
 
         @if (session('status'))

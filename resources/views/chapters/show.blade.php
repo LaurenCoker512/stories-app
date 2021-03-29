@@ -96,7 +96,11 @@
                     @foreach($comments as $comment)
                         <div class="card mt-4">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $comment->author->name ?? 'Guest' }}</h5>
+                                <div 
+                                    class="img-circular-small d-inline-block" 
+                                    style="background-image: url({{ $comment->author->getUserAvatar() }});">
+                                </div> &nbsp;
+                                <h5 class="card-title d-inline-block" style="transform: translateY(-12px);">{{ $comment->author->name ?? 'Guest' }}</h5>
                                 <p>{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</p>
                                 <p class="card-text">{{ $comment->body }}</p>
                                 @can('update', $comment)

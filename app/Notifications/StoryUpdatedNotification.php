@@ -66,9 +66,11 @@ class StoryUpdatedNotification extends Notification implements ShouldQueue
     {
         return [
             'story_id' => $this->story->id,
+            'story_title' => $this->story->title,
             'chapter_name' => $this->chapterName,
             'chapter_num' => $this->chapterNum,
             'user_id' => $this->user->id,
+            'author_name' => $this->story->author->name
         ];
     }
 }

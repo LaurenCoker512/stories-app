@@ -62,7 +62,9 @@ class StoryCreatedNotification extends Notification implements ShouldQueue
     {
         return [
             'story_id' => $this->story->id,
+            'story_title' => $this->story->title,
             'user_id' => $this->user->id,
+            'author_name' => $this->story->author->name
         ];
     }
 }

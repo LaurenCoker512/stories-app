@@ -28,6 +28,10 @@
                 <li class="nav-item" v-if="guest">
                     <a class="nav-link" href="/register">Create Account</a>
                 </li>
+                <div v-if="!guest"
+                    class="img-circular-small" 
+                    :style="`background-image: url(${authAvatar});`">
+                </div>
                 <li class="nav-item dropdown" v-if="!guest">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Welcome, {{ authName }}!
@@ -43,13 +47,31 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown" v-if="!guest">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a 
+                        id="navbarDropdown" 
+                        class="nav-link dropdown-toggle" 
+                        style="position: relative;"
+                        role="button" 
+                        data-toggle="dropdown" 
+                        aria-haspopup="true" 
+                        aria-expanded="false"
+                    >
                         Notifications &nbsp; <img src="/img/bell.png" alt="notification bell." height="20" width="20">
+                        <div class="notifications-count">{{ notifications.length }}</div>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" v-if="notifications.length > 0">
                         <a class="dropdown-item" href="#" v-for="notification in notifications" :key="notification.id">
-                            Dashboard
+                            <span v-if="notification.type === 'App\\Notifications\\StoryCreatedNotification'">
+                                <a 
+                                    :href="`/stories/${notification.data.story_id}/chapters/1`"
+                                >{{ notification.data.author_name }} has posted a new story!</a>
+                            </span>
+                            <span v-if="notification.type === 'App\\Notifications\\StoryUpdatedNotification'">
+                                <a 
+                                    :href="`/stories/${notification.data.story_id}/chapters/${notification.data.chapter_num}`"
+                                >{{ notification.data.story_title }} has been updated!</a>
+                            </span>
                         </a>
                     </div>
                 </li>
@@ -65,7 +87,8 @@
         props: [
             'guest',
             'authName',
-            'authId'
+            'authId',
+            'authAvatar'
         ],
 
         data() {
@@ -102,3 +125,23 @@
         }
     }
 </script>
+
+<styles lang="scss" scoped>
+    .notifications-count {
+        z-index: 3;
+        position: absolute;
+        top: 6px;
+        right: 18px;
+        width: 16px;
+        height: 16px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 1;
+        padding: 3px;
+        background-color: #da3225;
+        border-radius: 60%;
+        transition: 0.3s cubic-bezier(0, 0.24, 0.86, 1.08) all;
+    }
+</styles>

@@ -11,8 +11,17 @@ use App\Events\StoryCreated;
 use App\Http\Requests\StoreStoryRequest;
 use App\Http\Requests\UpdateStoryRequest;
 
+/**
+ * This class is a controller for stories.
+ */
 class StoriesController extends Controller
 {
+    /**
+     * This method gets all of the existing stories and top 10 tags and returns
+     * the main stories index page (the homepage).
+     * 
+     * @return view
+     */
     public function index()
     {
         $stories = Story::latest('updated_at')->take(20)->get();
@@ -27,12 +36,24 @@ class StoriesController extends Controller
         return view('stories.index', compact('stories', 'tags', 'typeCounts'));
     }
 
+    /**
+     * This method returns the create new story form.
+     * 
+     * @return view
+     */
     public function create()
     {
         $tags = Tag::all();
         return view('stories.create', compact('tags'));
     }
 
+    /**
+     * This method creates a new story.
+     * 
+     * @param StoreStoryRequest $request
+     * 
+     * @return json
+     */
     public function store(StoreStoryRequest $request)
     {
         $validated = $request->validated();
@@ -52,6 +73,13 @@ class StoriesController extends Controller
         ]);
     }
 
+    /**
+     * This method returns the edit page for a specific story.
+     * 
+     * @param Story $story An instance of the Story model
+     * 
+     * @return view
+     */
     public function edit(Story $story)
     {
         $this->authorize('update', $story);
@@ -61,6 +89,14 @@ class StoriesController extends Controller
         return view('stories.edit', compact('story', 'tags'));
     }
 
+    /**
+     * This method updates a given story.
+     * 
+     * @param UpdateStoryRequest $request
+     * @param Story $story An instance of the Story model
+     * 
+     * @return json
+     */
     public function update(UpdateStoryRequest $request, Story $story)
     {
         $this->authorize('update', $story);
@@ -80,6 +116,13 @@ class StoriesController extends Controller
         ]);
     }
 
+    /**
+     * This method deletes a given story.
+     * 
+     * @param Story $story An instance of the Story model
+     * 
+     * @return redirect
+     */
     public function destroy(Story $story)
     {
         $this->authorize('update', $story);
@@ -89,6 +132,13 @@ class StoriesController extends Controller
         return redirect('/dashboard/' . auth()->id());
     }
 
+    /**
+     * This method gets all the stories of a given type.
+     * 
+     * @param Request $request
+     * 
+     * @return view
+     */
     public function getType(Request $request)
     {
         $type = $request->input('type');
@@ -98,6 +148,14 @@ class StoriesController extends Controller
         return view('stories.type', compact('stories', 'type'));
     }
 
+    /**
+     * This method searches through existing stories and returns those that
+     * match the given query.
+     * 
+     * @param Request $request
+     * 
+     * @return view
+     */
     public function search(Request $request)
     {
         $search = $request->query('query');

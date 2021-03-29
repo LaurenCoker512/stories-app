@@ -40,3 +40,43 @@
 .ProseMirror {
     padding: 1rem;
 }
+
+// .avatar-crop {
+//     width: 200px;
+//     height: 200px;
+//     position: relative;
+//     overflow: hidden;
+//     -webkit-border-radius: 50%;
+//     -moz-border-radius: 50%;
+//     -ms-border-radius: 50%;
+//     -o-border-radius: 50%;
+//     border-radius: 50%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+
+// .avatar {
+//     height: 100%;
+//     width: auto;
+// }
+
+.img-circular {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    display: block;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+}
+
+.img-circular-small {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    display: block;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+}
