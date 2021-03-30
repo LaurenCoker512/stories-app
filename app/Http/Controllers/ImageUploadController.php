@@ -90,9 +90,10 @@ class ImageUploadController extends Controller
   
         // Create unique file name
         $fileNameToStore = $filename.'_'.time().'.'.$extension;
+        $smallFileNameToStore = $filename.'_small_'.time().'.'.$extension;
   
         // Refer image to method resizeImage
-        $save = $this->resizeImage($file, $fileNameToStore);
+        $save = $this->resizeImage($file, $fileNameToStore, $smallFileNameToStore);
   
         return $filename;
       }
@@ -105,20 +106,27 @@ class ImageUploadController extends Controller
        * @author Niklas Fandrich
        * @return bool
        */
-      public function resizeImage($file, $fileNameToStore) {
+      public function resizeImage($file, $fileNameToStore, $smallFileNameToStore) {
         // Resize image
         $resize = Image::make($file)->resize(600, null, function ($constraint) {
+          $constraint->aspectRatio();
+        })->encode('jpg');
+
+        $resizeSmall = Image::make($file)->resize(300, null, function ($constraint) {
           $constraint->aspectRatio();
         })->encode('jpg');
   
         // Create hash value
         $hash = md5($resize->__toString());
+        $hashSmall = md5($resizeSmall->__toString());
   
         // Prepare qualified image name
         $image = $hash."jpg";
+        $imageSmall = $hashSmall."jpg";
   
         // Put image to storage
         $save = Storage::put("public/images/{$fileNameToStore}", $resize->__toString());
+        $saveSmall = Storage::put("public/images/{$smallFileNameToStore}", $resizeSmall->__toString());
 
         // Save image url to DB
         $avatar = Avatar::where('user_id', auth()->id());
@@ -127,18 +135,20 @@ class ImageUploadController extends Controller
           $avatar->update([
             'image_type' => 'upload',
             'image_url' => null,
-            'image_upload' => "/storage/images/{$fileNameToStore}"
+            'image_upload' => "/storage/images/{$fileNameToStore}",
+            'image_upload_small' => "/storage/images/{$smallFileNameToStore}"
           ]);
         } else {
           Avatar::create([
             'user_id' => auth()->id(),
             'image_type' => 'upload',
             'image_url' => null,
-            'image_upload' => "/storage/images/{$fileNameToStore}"
+            'image_upload' => "/storage/images/{$fileNameToStore}",
+            'image_upload_small' => "/storage/images/{$smallFileNameToStore}"
           ]);
         }
   
-        if($save) {
+        if($save && $saveSmall) {
           return true;
         }
         return false;
