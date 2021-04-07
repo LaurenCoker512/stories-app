@@ -22,17 +22,6 @@ class Chapter extends Model
         'body'
     ];
 
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'id', 
-        'created_at', 
-        'updated_at'
-    ];
-
     protected $touches = ['story'];
 
     /**

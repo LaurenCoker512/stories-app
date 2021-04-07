@@ -20,19 +20,6 @@ class Subscription extends Model
     protected $fillable = ['user_id'];
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'id',
-        'subscribable_id',
-        'subscribable_type',
-        'created_at',
-        'updated_at'
-    ];
-
-    /**
      * This method establishes a polymorphic relationship with either a Story
      * or a User.
      * 

@@ -25,17 +25,6 @@ class Avatar extends Model
     ];
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at'
-    ];
-
-    /**
      * This method establishes a one-to-one relationship with a User.
      * 
      * @return Collection

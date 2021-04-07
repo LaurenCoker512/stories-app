@@ -20,17 +20,6 @@ class Tag extends Model
     protected $fillable = ['name'];
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'id', 
-        'created_at', 
-        'updated_at'
-    ];
-
-    /**
      * This method establishes a many-to-many relationship with Stories.
      * 
      * @return Collection

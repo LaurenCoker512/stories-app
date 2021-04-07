@@ -23,18 +23,6 @@ class Comment extends Model
     ];
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [
-        'id',
-        'chapter_id',
-        'created_at',
-        'updated_at'
-    ];
-
-    /**
      * This method establishes a one-to-many-relationship with a User.
      * 
      * @return Collection
