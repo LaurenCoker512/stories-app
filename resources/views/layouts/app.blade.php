@@ -24,7 +24,6 @@
 </head>
 <body>
     <div id="app">
-        {{-- @include('partials.nav') --}}
         <navbar
             guest="{{ Auth::check() ? false : true }}"
             auth-name="{{ Auth::check() ? Auth::user()->name : '' }}"
@@ -41,6 +40,8 @@
         <main>
             @yield('content')
         </main>
+
+        @include('partials.footer')
     </div>
 </body>
 </html>

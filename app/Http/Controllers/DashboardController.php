@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 /**
- * This class is a controller the user dashboard and user notifications.
+ * This class is a controller for the user dashboard and user notifications.
  */
 class DashboardController extends Controller
 {
