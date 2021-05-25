@@ -30,6 +30,7 @@ Vue.use(VueSanitize);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('navbar', require('./components/Navbar.vue').default);
+Vue.component('rich-text-editor', require('./components/RichTextEditor.vue').default);
 Vue.component('story-form', require('./components/StoryForm.vue').default);
 Vue.component('chapter-form', require('./components/ChapterForm.vue').default);
 

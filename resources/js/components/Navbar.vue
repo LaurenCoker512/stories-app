@@ -101,7 +101,6 @@
             if (!this.guest) {
                 // Send a get request to /notifications  
                 axios.get('/notifications').then(res => {
-                    console.log(res);
                     this.notifications = res.data;
                 });
             }
