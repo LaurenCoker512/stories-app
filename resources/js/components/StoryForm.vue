@@ -9,7 +9,8 @@
                 id="title" 
                 name="title"
                 placeholder="Story Title" 
-                v-model="fields.title">
+                v-model="fields.title"
+                v-on:keyup="revalidate">
                 <div class="invalid-feedback" v-if="errors.title">{{ errors.title[0] }}</div>
         </div>
         <div class="form-group">
@@ -20,7 +21,8 @@
                 id="description" 
                 name="description"
                 v-model="fields.description"
-                rows="3">
+                rows="3"
+                v-on:keyup="revalidate">
             </textarea>
             <div class="invalid-feedback" v-if="errors.description">{{ errors.description[0] }}</div>
         </div>
@@ -112,8 +114,12 @@ import RichTextEditor from './RichTextEditor.vue';
                     type: 'fiction',
                     tags: []
                 },
-                firstChapter: '',
-                errors: {},
+                errors: {
+                    title: null,
+                    description: null,
+                    firstChapter: null
+                },
+                firstChapter: '<p>Click here to write your chapter!</p>',
                 tagOptions: [],
                 isLoading: false,
             }
@@ -130,6 +136,7 @@ import RichTextEditor from './RichTextEditor.vue';
         methods: {
             updateBody(e) {
                 this.firstChapter = e;
+                this.revalidate();
             },
 
             addTag (newTag) {
@@ -147,12 +154,38 @@ import RichTextEditor from './RichTextEditor.vue';
                 });
             },
 
+            revalidate() {
+                if (this.fields.title.length >= 2 && this.fields.title.length <= 255) {
+                    this.errors.title = null;
+                }
+                if (this.fields.description.length >= 2 && this.fields.description.length <= 1000) {
+                    this.errors.description = null;
+                }
+                if (this.fields.first_chapter.length >= 10) {
+                    this.errors.firstChapter = null;
+                }
+            },
+
             submit() {
                 this.errors = {};
                 let url = this.method === 'update' ? `/stories/${this.id}` : '/stories';
 
                 if (this.method === 'store') {
                     this.fields.first_chapter = this.firstChapter;
+
+                    if (this.fields.title.length < 2 || this.fields.title.length > 255) {
+                        this.errors.title = ['Stories must have a title between 2 and 255 characters.'];
+                    }
+                    if (this.fields.description.length < 2 || this.fields.description.length > 1000) {
+                        this.errors.description = ['Stories must have a description between 2 and 1000 characters.'];
+                    }
+                    if (this.fields.first_chapter.length < 10) {
+                        this.errors.firstChapter = ['The first chapter must be at least 10 characters.'];
+                    }
+
+                    if (this.errors.title || this.errors.description || this.errors.firstChapter) {
+                        return;
+                    }
 
                     window.axios.post(url, this.fields).then(res => {
                         window.location.href = res.data.redirect;
@@ -162,6 +195,17 @@ import RichTextEditor from './RichTextEditor.vue';
                         }
                     });
                 } else {
+                    if (this.fields.title.length < 2 || this.fields.title.length > 255) {
+                        this.errors.title = ['Stories must have a title between 2 and 255 characters.'];
+                    }
+                    if (this.fields.description.length < 2 || this.fields.description.length > 1000) {
+                        this.errors.description = ['Stories must have a description between 2 and 1000 characters.'];
+                    }
+
+                    if (this.errors.title || this.errors.description || this.errors.firstChapter) {
+                        return;
+                    }
+
                     window.axios.patch(url, this.fields).then(res => {
                         window.location.href = res.data.redirect;
                     }).catch(error => {

@@ -8,6 +8,11 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body {
+    position: relative;
+    height: 100vh;
+}
+
 .pagination > li > a
 {
     background-color: white;
@@ -41,26 +46,6 @@
     padding: 1rem;
 }
 
-// .avatar-crop {
-//     width: 200px;
-//     height: 200px;
-//     position: relative;
-//     overflow: hidden;
-//     -webkit-border-radius: 50%;
-//     -moz-border-radius: 50%;
-//     -ms-border-radius: 50%;
-//     -o-border-radius: 50%;
-//     border-radius: 50%;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   }
-
-// .avatar {
-//     height: 100%;
-//     width: auto;
-// }
-
 .img-circular {
     width: 150px;
     height: 150px;
@@ -79,4 +64,9 @@
     border-radius: 100px;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
 }

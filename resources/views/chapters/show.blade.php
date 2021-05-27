@@ -171,13 +171,17 @@
                 <ul class="list-group mt-4 mb-4">
                     @foreach($story->chapters as $chap)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @if($chap->id !== $chapter->id)
                         <a href="{{ $chap->path() }}" class="text-dark">
+                        @endif
                             @if($chap->name)
                                 {{ $chap->name }}
                             @else
                                 Chapter {{ $chap->getNumber() }}
                             @endif
+                        @if($chap->id !== $chapter->id)
                         </a>
+                        @endif
                     </li>
                     @endforeach
                 </ul>

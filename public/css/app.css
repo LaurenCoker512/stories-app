@@ -10943,6 +10943,11 @@ a.text-dark:focus {
   }
 }
 
+body {
+  position: relative;
+  height: 100vh;
+}
+
 .pagination > li > a {
   background-color: white;
   color: #343a40;
@@ -10990,6 +10995,11 @@ a.text-dark:focus {
   border-radius: 100px;
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
 }
 
 

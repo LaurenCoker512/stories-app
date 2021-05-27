@@ -47,7 +47,9 @@ import RichTextEditor from './RichTextEditor.vue';
                     name: '',
                     body: ''
                 },
-                errors: {},
+                errors: {
+                    body: null
+                },
             }
         },
         mounted() {
@@ -61,6 +63,13 @@ import RichTextEditor from './RichTextEditor.vue';
 
             updateBody(e) {
                 this.fields.body = e;
+                this.revalidate();
+            },
+
+            revalidate() {
+                if (this.fields.body.length >= 10) {
+                    this.errors.body = null;
+                }
             },
 
             submit() {
@@ -68,6 +77,14 @@ import RichTextEditor from './RichTextEditor.vue';
                 let url = this.method === 'update' ? `/stories/${this.storyId}/chapters/${this.chapterId}` : `/stories/${this.storyId}/chapters`;
 
                 if (this.method === 'store') {
+                    if (this.fields.body.length < 10) {
+                        this.errors.body = ['The chapter must be at least 10 characters.'];
+                    }
+
+                    if (this.errors.body) {
+                        return;
+                    }
+
                     window.axios.post(url, this.fields).then(res => {
                         window.location.href = res.data.redirect;
                     }).catch(error => {
@@ -76,6 +93,14 @@ import RichTextEditor from './RichTextEditor.vue';
                         }
                     });
                 } else {
+                    if (this.fields.body.length < 10) {
+                        this.errors.body = ['The chapter must be at least 10 characters.'];
+                    }
+
+                    if (this.errors.body) {
+                        return;
+                    }
+
                     window.axios.patch(url, this.fields).then(res => {
                         window.location.href = res.data.redirect;
                     }).catch(error => {
