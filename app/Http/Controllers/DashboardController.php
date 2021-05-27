@@ -71,6 +71,54 @@ class DashboardController extends Controller
     }
 
     /**
+     * This method loads the view to edit a user's information.
+     * 
+     * @param User $user An instance of the User model
+     * 
+     * @return redirect
+     */
+    public function edit(User $user)
+    {
+        if ($user != auth()->user()) {
+            abort(401);
+        }
+        return view('dashboard.edit', compact('user'));
+    }
+
+    public function update(User $user, Request $request)
+    {
+        if ($user != auth()->user()) {
+            abort(401);
+        }
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'old_password' => ['nullable', 'required_with:new_password', 'string', 'min:8'],
+            'new_password' => ['nullable', 'string', 'min:8'],
+            'password-confirm' => ['required_with:new_password', 'string', 'min:8', 'same:new_password'],
+            'phone' => ['numeric', 'nullable'],
+            'website' => ['regex:/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', 'nullable']
+        ]);
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'website' => $validated['website'],
+        ]);
+
+        if ($validated['new_password'] && \Hash::check($validated['old_password'], $user->password)) {
+            $user->password = \Hash::make($validated['new_password']);
+            $user->save();
+        }
+
+        $request->session()->flash('status', 'User info was updated!');
+
+        return redirect('/dashboard/' . auth()->id() . '/edit');
+    }
+
+    /**
      * This method gets all the unread notifications for the logged-in user.
      * 
      * @return json

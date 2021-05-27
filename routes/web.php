@@ -97,6 +97,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     // User dashboard
     Route::post('/dashboard/{user}/image', [ImageUploadController::class, 'upload']);
+    Route::get('/dashboard/{user}/edit', [DashboardController::class, 'edit']);
+    Route::patch('/dashboard/{user}', [DashboardController::class, 'update']);
 
     // Notifications
     Route::get('/notifications', [DashboardController::class, 'getNotifications']);

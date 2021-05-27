@@ -28,15 +28,13 @@
             <h1>{{ $user->name }}'s Stories</h1>
         @endif
         <div class="row">
-            @if(auth()->id() === $user->id)
+            
             <div class="col-md-9 col-12">
+                @if(auth()->id() === $user->id)
+                    <h2>Your Stories</h2>
                 
-                <h2>Your Stories</h2>
-
-                <a href="/stories/create" class="btn btn-dark" role="button">Create a New Story</a>
-            @else
-            <div class="col-12">
-            @endif
+                    <a href="/stories/create" class="btn btn-dark" role="button">Create a New Story</a>
+                @endif
 
                 @forelse($stories as $story)
                     <x-story :story="$story" :user="$story->author"/>
@@ -54,42 +52,34 @@
 
                 <br/>
             </div>
-            @if(auth()->id() === $user->id)
+            
             <div class="col-md-3 col-12">
                 <div 
                     class="img-circular mb-4 ml-auto mr-auto" 
                     style="background-image: url('{{ $user->getUserAvatar() }}');">
                 </div>
-                
-                <button 
-                    type="button" 
-                    class="btn btn-dark d-block ml-auto mr-auto" 
-                    data-toggle="modal" 
-                    data-target="#avatar-upload"
-                >
-                    @if($user->avatar)
-                    Change Avatar
-                    @else
-                    Upload an Avatar
+
+                @if(auth()->id() === $user->id)
+                    <div class="text-center">
+                        <a href="/dashboard/{{ $user->id }}/edit" class="text-dark">Edit User Info</a>
+                    </div>
+
+                    <br/>
+
+                    <h2>Your Subscriptions</h2>
+
+                    @forelse($authorSubs as $story)
+                        <x-story :story="$story" :user="$story->author"/>
+                    @empty
+                        <div class="mt-4">You haven't subscribed to any stories yet.</div>
+                    @endforelse
+
+                    @if(count($authorSubs) > 5)
+                        <a href="/subscriptions" class="btn btn-dark" role="button">View All Subscriptions</a>
                     @endif
-                </button>
-
-                <br/>
-
-                <h2>Your Subscriptions</h2>
-
-                @forelse($authorSubs as $story)
-                    <x-story :story="$story" :user="$story->author"/>
-                @empty
-                    <div class="mt-4">You haven't subscribed to any stories yet.</div>
-                @endforelse
-
-                @if(count($authorSubs) > 5)
-                    <a href="/subscriptions" class="btn btn-dark" role="button">View All Subscriptions</a>
                 @endif
 
             </div>
-            @endif
         </div>
     </section>
 
