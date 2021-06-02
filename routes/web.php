@@ -121,6 +121,12 @@ Route::get(
     [ChaptersController::class, 'show']
 )->name('chapters.show');
 
+// Comment routes
+Route::get(
+    '/stories/{story}/chapters/{chapterNum}/comments', 
+    [CommentsController::class, 'getComments']
+)->name('comments.get-comments');
+
 // Tag routes
 Route::get('/tags/search', [TagsController::class, 'search'])->name('tags.search');
 

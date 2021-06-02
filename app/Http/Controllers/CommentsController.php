@@ -88,4 +88,23 @@ class CommentsController extends Controller
 
         return redirect($chapter->path());
     }
+
+    public function getComments(Story $story, int $chapterNum)
+    {
+        $chapter = StoryChapterFacade::getChapterIdFromNum($story->id, $chapterNum);
+
+        $comments = Comment::where('chapter_id', $chapter->id)->orderBy('created_at', 'desc')->paginate(10);
+
+        foreach ($comments as $comment) {
+            $comment->can_update = $comment->id === auth()->id();
+            $comment->path = $comment->path();
+            $comment->avatar = $comment->author ? $comment->author->getUserAvatar() : "/img/avatar-placeholder.png";
+            $comment->posted_time = \Carbon\Carbon::parse($comment->created_at)->diffForHumans();
+            $comment->author = $comment->author();
+        }
+
+        return response()->json([
+            'comments' => $comments
+        ]);
+    }
 }

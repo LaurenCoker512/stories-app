@@ -8,6 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 const VueSanitize = require('vue-sanitize');
+const InfiniteLoading = require('vue-infinite-loading');
 
 window.axios = require('axios');
 
@@ -17,6 +18,14 @@ window.axios.defaults.headers.common = {
 };
 
 Vue.use(VueSanitize);
+Vue.use(InfiniteLoading, {
+    props: {
+        spinner: 'default'
+    },
+    system: {
+        throttleLimit: 50
+    }
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,6 +40,7 @@ Vue.use(VueSanitize);
 
 Vue.component('navbar', require('./components/Navbar.vue').default);
 Vue.component('rich-text-editor', require('./components/RichTextEditor.vue').default);
+Vue.component('comments-display', require('./components/Comments.vue').default);
 Vue.component('story-form', require('./components/StoryForm.vue').default);
 Vue.component('chapter-form', require('./components/ChapterForm.vue').default);
 

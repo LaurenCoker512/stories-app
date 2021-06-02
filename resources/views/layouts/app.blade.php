@@ -23,25 +23,30 @@
     <link rel="icon" href="{{ URL::asset('/images/pencil-16-83329.png') }}" type="image/x-icon"/>
 </head>
 <body>
-    <div id="app">
-        <navbar
-            guest="{{ Auth::check() ? false : true }}"
-            auth-name="{{ Auth::check() ? Auth::user()->name : '' }}"
-            auth-id="{{ Auth::check() ? Auth::user()->id : '' }}"
-            auth-avatar="{{ Auth::check() ? Auth::user()->getUserAvatar() : '' }}"
-        ></navbar>
+    <div class="wrapper">
+        <div class="main">
+            <div id="app">
+                <navbar
+                    guest="{{ Auth::check() ? false : true }}"
+                    auth-name="{{ Auth::check() ? Auth::user()->name : '' }}"
+                    auth-id="{{ Auth::check() ? Auth::user()->id : '' }}"
+                    auth-avatar="{{ Auth::check() ? Auth::user()->getUserAvatar() : '' }}"
+                ></navbar>
 
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <main>
+                    @yield('content')
+                </main>
+
+                
             </div>
-        @endif
-
-        <main>
-            @yield('content')
-        </main>
-
-        @include('partials.footer')
+        </div>
     </div>
+    @include('partials.footer')
 </body>
 </html>
