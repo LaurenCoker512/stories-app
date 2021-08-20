@@ -17,7 +17,7 @@ You will also need a local database. You can use the credentials for any MySQL d
 `mysql_secure_installation` to set your password
 `mysql -u root -p`
 
-Enter your password, then run `create database storieapp`. You should now have a fresh database that can be used with this project.
+Enter your password, then run `create database storiesapp`. You should now have a fresh database that can be used with this project.
 
 ### Running the Project
 
